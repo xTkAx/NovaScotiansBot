@@ -50,7 +50,7 @@ if non_posted == 0:
         print(e)
         sys.exit()  # Exit on error
     new_posts = 0
-    # Loop through mediastack_news and check if URL is in post_data
+    # Loop through mediastack_news and check if entry is in post_data
     for mediastack_entry in mediastack_news:
         mediastack_title = mediastack_entry[1] # assuming Title column is always the 3rd column
         mediastack_url = mediastack_entry[2]  # assuming URL column is always the 3rd column
@@ -61,7 +61,7 @@ if non_posted == 0:
             if mediastack_url == post_url or mediastack_title == post_title:
                 entry_found = True
                 break
-        # If URL not found in post_data, append the mediastack_entry to post_data
+        # If entry not found in post_data, append the mediastack_entry to post_data
         if not entry_found:
             post_data.append(mediastack_entry)
             new_posts += 1
