@@ -52,7 +52,7 @@ if non_posted == 0:
     new_posts = 0
     # Loop through mediastack_news and check if entry is in post_data
     for mediastack_entry in mediastack_news:
-        mediastack_title = mediastack_entry[1] # assuming Title column is always the 3rd column
+        mediastack_title = mediastack_entry[1] # assuming Title column is always the 2nd column
         mediastack_url = mediastack_entry[2]  # assuming URL column is always the 3rd column
         entry_found = False
         for post_entry in post_data:
