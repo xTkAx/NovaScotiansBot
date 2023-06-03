@@ -52,15 +52,17 @@ if non_posted == 0:
     new_posts = 0
     # Loop through mediastack_news and check if URL is in post_data
     for mediastack_entry in mediastack_news:
+        mediastack_title = mediastack_entry[1] # assuming Title column is always the 3rd column
         mediastack_url = mediastack_entry[2]  # assuming URL column is always the 3rd column
-        url_found = False
+        entry_found = False
         for post_entry in post_data:
+            post_title = post_entry[1]
             post_url = post_entry[2]
-            if mediastack_url == post_url:
-                url_found = True
+            if mediastack_url == post_url or mediastack_title == post_title:
+                entry_found = True
                 break
-        # If URL not found in post_data, append the full object to post_data
-        if not url_found:
+        # If URL not found in post_data, append the mediastack_entry to post_data
+        if not entry_found:
             post_data.append(mediastack_entry)
             new_posts += 1
     print(f'{new_posts} new posts were retrieved from MediaStackNewsAPI.')
