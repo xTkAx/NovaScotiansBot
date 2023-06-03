@@ -2,9 +2,9 @@
 A news bot for https://www.Reddit.com/r/NovaScotians/
 
 # Usage
--Get a Reddit.com API set up with an account.
+-Get a Reddit.com API set up with an account and private data placed in ../AccountConfiguration/AccountConfig.py
 
--Get a MediaStack.com API set up.
+-Get a MediaStack.com API set up and private data placed in ../AccountConfiguration/AccountConfig.py
 
 -Run NovaScotiansBot.py using Python 3.
 
