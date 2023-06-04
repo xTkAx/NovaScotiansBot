@@ -59,7 +59,7 @@ while True:
                 article_count += 1
             print(f'\t{article_count} articles retrieved from MediaStack.')
         except Exception as e:
-            print(f'\tProblem with MediaStackAPI:\r\n\t{e}')
+            print(f'\tProblem with MediaStackAPI:\r\n\t[ {e} ]')
         # Try get TheNewsAPI articles:
         try:
             article_count = 0
