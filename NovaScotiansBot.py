@@ -71,7 +71,7 @@ while True:
             # If entry not found in post_data, append the mediastack_entry to post_data
             if not entry_found:
                 post_data.append(mediastack_entry)
-                non_posted += 1  # subtract one from non_posted to keep track and identify which delay to use later.
+                new_posts += 1
         print(f'{new_posts} new posts were retrieved from MediaStackNewsAPI.')
 
     # Loop through non-posted post_data and create a reddit post of data:
@@ -81,7 +81,7 @@ while True:
                 RedditAPI.post_article(entry[1], entry[2])  # assuming TITLE & URL column is the 2nd & 3rd column
                 entry[0] = 'Posted'
                 print(f'Posted:\r\n\t{entry[1]}\r\n\t{entry[2]}')
-                non_posted -= 1
+                non_posted -= 1  # subtract one from non_posted to keep track and identify which delay to use later.
             except Exception as e:
                 print(f'Error Posting:\r\n\t{entry[1]}\r\n\t{entry[2]}\r\n\t[ {e} ]')
 
