@@ -15,19 +15,19 @@ from AccountConfiguration.AccountConfig import THENEWSAPI_KEY
 # region get_news()
 """
 get_news()
-    This method will generate the query to get the news from MediaStack.com, and return an array of data to the
-    caller (or will throw an error).
+    This method will generate the query to get the news from TheNewsAPI.com, and yield each article back to the caller
+     (or will throw an error).
     
     Parameters:
         search_string: the string to do a news search for
-        
-    Returns:
-        (good) An array of return_data:
-            eg:
-            [['', title1, url1],['', title2, url2],['', titleN, urlN],..]
-            
-        (bad) it will throw an error
     
+    Throws:
+        Error
+            
+    Yields:
+        Articles of data in the format:
+            ['', title, url]
+            
 """
 
 
