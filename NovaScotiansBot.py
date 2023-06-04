@@ -71,7 +71,7 @@ while True:
             # If entry not found in post_data, append the mediastack_entry to post_data
             if not entry_found:
                 post_data.append(mediastack_entry)
-                non_posted += 1 # subtract one from non_posted to keep track and identify which delay to use later.
+                non_posted += 1  # subtract one from non_posted to keep track and identify which delay to use later.
         print(f'{new_posts} new posts were retrieved from MediaStackNewsAPI.')
 
     # Loop through non-posted post_data and create a reddit post of data:

@@ -1,17 +1,18 @@
-# NovaScotiansBot
-A Nova Scotia news bot which will scan News API's and then post links to the news articles to https://www.reddit.com/r/NovaScotians/  
+# <u><i>NovaScotiansBot</i></u>
+Python 3 code to drive a Nova Scotia news bot reddit account, [NovaScotiansBot](https://www.reddit.com/u/NovaScotiansBot/), which will scan news APIs for Nova Scotia related articles, and then post them to https://www.reddit.com/r/NovaScotians/. 
 
 ## Usage:
-- Get a Reddit.com API set up with an account and place the private data in the variables inside ../AccountConfiguration/AccountConfig.py
-- Get a MediaStack.com API set up with an account and place the private data in the variables inside ../AccountConfiguration/AccountConfig.py
-- Run NovaScotiansBot.py using Python 3.
-- The script will run on a loop, posting every 15 minutes for any posts not yet posted to reddit, or every 1.5 hours if all posts have been posted to reddit.
-- The script identifies if it has posted using Posts.csv, where the 1st column of data = 'Posted'.
+- Get a https://www.reddit.com account and API set up, and assign the private data to the relevant variables inside ../AccountConfiguration/AccountConfig.py
+- Get a https://www.mediastack.com account and API set up, and assign the private data to the relevant variables inside ../AccountConfiguration/AccountConfig.py
+- Use <u>Python 3</u> to run <b>NovaScotiansBot.py</b>.
+- The script will run on a loop, posting every 15 minutes for any posts not yet posted to reddit, or every 1.5 hours if all posts have been posted to reddit (this prevents excessive news API calls).
+- CTRL+C will terminate the script (but you should probably wait until it displays '<b><i>Waiting to run again @ yyyy-MM-DD HH:mm:ss.fff (CTRL+C to QUIT)</i></b>' to avoid the small risk of data-loss when writing to Posts.csv)
+- The script identifies if it has posted an article to reddit using Posts.csv, where the 1st column of data = 'Posted'.
 - Could cause a problem of reposting if you delete Posts.csv.
 
 
 ## ToDo's:
 - Find a way to make sure only english language posts are posted.
-- Add some more News API's.
+- Add some more News APIs.
 - Switch from csv files to SQLite or TinyDB.
 - Other improvements?
