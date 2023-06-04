@@ -71,7 +71,7 @@ while True:
             # If entry not found in post_data, append the mediastack_entry to post_data
             if not entry_found:
                 post_data.append(mediastack_entry)
-                new_posts += 1
+                non_posted += 1 # subtract one from non_posted to keep track and identify which delay to use later.
         print(f'{new_posts} new posts were retrieved from MediaStackNewsAPI.')
 
     # Loop through non-posted post_data and create a reddit post of data:
@@ -103,6 +103,6 @@ while True:
     print(f'Waiting to run again @ {datetime.now() + timedelta(seconds=retry_delay)} (CTRL+C to QUIT)')
     try:
         time.sleep(retry_delay)
-    except Exception as e:
+    except:
         print(f"\nTerminated by user")
         sys.exit()
