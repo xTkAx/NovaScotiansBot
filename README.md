@@ -1,5 +1,5 @@
 # NovaScotiansBot
-A news bot for https://www.Reddit.com/r/NovaScotians/
+A news bot for https://www.reddit.com/r/NovaScotians/
 
 # Usage
 -Get a Reddit.com API set up with an account and private data placed in ../AccountConfiguration/AccountConfig.py
@@ -8,8 +8,8 @@ A news bot for https://www.Reddit.com/r/NovaScotians/
 
 -Run NovaScotiansBot.py using Python 3.
 
--Run it every 1-2 hours or on a timer.
+-Scritp will run on a loop, posting every 15 minutes for any posts not yet posted to reddit, or every 1.5 hours if all posts have been posted to reddit.
 
--The script identifies if it has posted using Posts.csv, where the 1st column of data says 'Posted'.
+-The script identifies if it has posted using Posts.csv, where the 1st column of data = 'Posted'.
 
 -Could cause a problem of reposting if you delete Posts.csv.
