@@ -50,30 +50,33 @@ while True:
     if non_posted == 0:
         # Get news from APIs:
         print('Gathering articles from APIs.')
-        new_news = []
+        new_articles = []
+
         # Try get MediaStack articles:
         try:
             article_count = 0
             for article in MediaStackAPI.get_news(search_string):
-                new_news.append(article)
+                new_articles.append(article)
                 article_count += 1
             print(f'\t{article_count} articles retrieved from MediaStack.')
         except Exception as e:
             print(f'\tProblem with MediaStackAPI:\r\n\t[ {e} ]')
+
         # Try get TheNewsAPI articles:
         try:
             article_count = 0
             for article in TheNewsAPI.get_news(search_string):
-                new_news.append(article)
+                new_articles.append(article)
                 article_count += 1
             print(f'\t{article_count} articles retrieved from TheNewsAPI.')
         except Exception as e:
             print(f'\tProblem with TheNewsAPI:\r\n\t[ {e} ]')
+
+        # Loop through new_articles and check if article is in post_data
         new_posts = 0
-        # Loop through new_posts and check if entry is in post_data
-        for new_entry in new_news:
-            new_title = new_entry[1]  # assuming Title column is always the 2nd column
-            new_url = new_entry[2]  # assuming URL column is always the 3rd column
+        for new_article in new_articles:
+            new_title = new_article[1]  # assuming Title column is always the 2nd column
+            new_url = new_article[2]  # assuming URL column is always the 3rd column
             entry_found = False
             for post_entry in post_data:
                 post_title = post_entry[1]
@@ -83,7 +86,7 @@ while True:
                     break
             # If entry not found in post_data, append the new_entry to post_data
             if not entry_found:
-                post_data.append(new_entry)
+                post_data.append(new_article)
                 new_posts += 1
         print(f'{new_posts} new posts were retrieved from all APIs.')
 
