@@ -4,6 +4,7 @@ AccountConfig
     This script contains private variables required to use:
         -PRAW REDDIT API
         -MEDIASTACK API
+        -THENEWSAPI API
 
 """
 
