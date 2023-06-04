@@ -9,11 +9,13 @@ Python 3 code to drive a Nova Scotia news bot reddit account, [NovaScotiansBot](
 - The script will run on a loop, posting every 15 minutes for any posts not yet posted to reddit, or every 1.5 hours if all posts have been posted to reddit (this prevents excessive news API calls).
 - CTRL+C will terminate the script (but you should probably wait until it displays '<b><i>Waiting to run again @ yyyy-MM-DD HH:mm:ss.fff (CTRL+C to QUIT)</i></b>' to avoid the small risk of data-loss when writing to Posts.csv)
 - The script identifies if it has posted an article to reddit using Posts.csv, where the 1st column of data = 'Posted'.
+ 
+## Issues:
 - Could cause a problem of reposting if you delete Posts.csv.
+- Can be a bit limited with free api accounts.
 
 
 ## ToDo's:
 - Find a way to make sure only english language posts are posted.
-- Add some more News APIs.
+- Add more News APIs.
 - Switch from csv files to SQLite or TinyDB.
-- Other improvements?

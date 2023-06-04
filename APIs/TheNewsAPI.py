@@ -2,6 +2,7 @@
 TheNewsAPI
 
     This script contains the methods used to pull data from https://TheNewsAPI.com/
+    -Can only pull 3 articles with the free account
 
     API Documentation: https://www.thenewsapi.com/documentation
     An example url to search for news articles:

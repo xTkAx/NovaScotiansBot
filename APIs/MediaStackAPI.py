@@ -3,8 +3,9 @@ MediaStackAPI
 
     This script contains the methods used to pull data from https://mediastack.com/
     -Free account allows 500 requests per month.
-    -Free account only allows http access.
+    -Free account only allows http access (no https).
 
+    API Documentation: https://mediastack.com/documentation
     An example url to search for news articles:
     api.mediastack.com/v1/news?access_key={MEDIASTACK_API_KEY}&keywords={search_string}&date={todays_date}&languages=en
 

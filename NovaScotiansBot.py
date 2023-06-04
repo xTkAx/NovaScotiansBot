@@ -68,7 +68,7 @@ while True:
                 article_count += 1
             print(f'\t{article_count} articles retrieved from TheNewsAPI.')
         except Exception as e:
-            print(f'\tProblem with TheNewsAPI:\r\n\t{e}')
+            print(f'\tProblem with TheNewsAPI:\r\n\t[ {e} ]')
         new_posts = 0
         # Loop through new_posts and check if entry is in post_data
         for new_entry in new_news:
