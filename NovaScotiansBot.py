@@ -9,7 +9,7 @@ import os
 import sys
 import time
 from datetime import datetime, timedelta
-from APIs import MediaStackNewsAPI, RedditAPI
+from APIs import RedditAPI, MediaStackAPI, TheNewsAPI
 
 # Define the default delay in seconds before a retry:
 default_retry = 5400  # Every 1.5 hours
@@ -48,31 +48,44 @@ while True:
 
     # If there is nothing to post:
     if non_posted == 0:
-        # Try to get news from MediaStackNewsAPI:
-        print('Gathering data from MediaStackNewsAPI.')
+        # Get news from APIs:
+        print('Gathering articles from APIs.')
+        new_news = []
+        # Try get MediaStack articles:
         try:
-            mediastack_news = MediaStackNewsAPI.get_news(search_string)
-            print(f'{len(mediastack_news)} news items gathered.')
+            article_count = 0
+            for article in MediaStackAPI.get_news(search_string):
+                new_news.append(article)
+                article_count += 1
+            print(f'\t{article_count} articles retrieved from MediaStack.')
         except Exception as e:
-            print(f'Exiting program due to MediaStackNewsAPI error:\r\n{e}')
-            sys.exit()  # Exit on error
+            print(f'\tProblem with MediaStackAPI:\r\n\t{e}')
+        # Try get TheNewsAPI articles:
+        try:
+            article_count = 0
+            for article in TheNewsAPI.get_news(search_string):
+                new_news.append(article)
+                article_count += 1
+            print(f'\t{article_count} articles retrieved from TheNewsAPI.')
+        except Exception as e:
+            print(f'\tProblem with TheNewsAPI:\r\n\t{e}')
         new_posts = 0
-        # Loop through mediastack_news and check if entry is in post_data
-        for mediastack_entry in mediastack_news:
-            mediastack_title = mediastack_entry[1]  # assuming Title column is always the 2nd column
-            mediastack_url = mediastack_entry[2]  # assuming URL column is always the 3rd column
+        # Loop through new_posts and check if entry is in post_data
+        for new_entry in new_news:
+            new_title = new_entry[1]  # assuming Title column is always the 2nd column
+            new_url = new_entry[2]  # assuming URL column is always the 3rd column
             entry_found = False
             for post_entry in post_data:
                 post_title = post_entry[1]
                 post_url = post_entry[2]
-                if mediastack_url == post_url or mediastack_title == post_title:
+                if new_url == post_url or new_title == post_title:
                     entry_found = True
                     break
-            # If entry not found in post_data, append the mediastack_entry to post_data
+            # If entry not found in post_data, append the new_entry to post_data
             if not entry_found:
-                post_data.append(mediastack_entry)
+                post_data.append(new_entry)
                 new_posts += 1
-        print(f'{new_posts} new posts were retrieved from MediaStackNewsAPI.')
+        print(f'{new_posts} new posts were retrieved from all APIs.')
 
     # Loop through non-posted post_data and create a reddit post of data:
     for entry in post_data:

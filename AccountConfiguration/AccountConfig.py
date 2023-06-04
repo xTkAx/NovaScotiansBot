@@ -10,7 +10,7 @@ AccountConfig
 # region PRAW REDDIT API DATA:
 CLIENT_ID = ''
 CLIENT_SECRET = ''
-USERNAME = ''
+USERNAME = 'NovaScotiansBot'
 PASSWORD = ''
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0'
 SUBREDDIT = 'NOVASCOTIANS'
@@ -18,4 +18,5 @@ SUBREDDIT = 'NOVASCOTIANS'
 
 # region NEWS API KEYS:
 MEDIASTACK_API_KEY = ''
+THENEWSAPI_KEY = ''
 # endregion NEWS API KEYS
