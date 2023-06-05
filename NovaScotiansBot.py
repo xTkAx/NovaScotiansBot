@@ -14,6 +14,9 @@ from APIs import RedditAPI, MediaStackAPI, TheNewsAPI
 # Define the default delay in seconds before a retry:
 default_retry = 5400  # Every 1.5 hours
 
+# Define the reddit replst delay in seconds before a retry:
+reddit_retry = 900  # Every 15 minutes
+
 # Define the Posts csv file:
 posts_file = 'Posts.csv'
 
@@ -97,7 +100,6 @@ while True:
                 RedditAPI.post_article(entry[1], entry[2])  # assuming TITLE & URL column is the 2nd & 3rd column
                 entry[0] = 'Posted'
                 print(f'Posted:\r\n\t{entry[1]}\r\n\t{entry[2]}')
-                non_posted -= 1  # subtract one from non_posted to keep track and identify which delay to use later.
             except Exception as e:
                 print(f'Error Posting:\r\n\t{entry[1]}\r\n\t{entry[2]}\r\n\t[ {e} ]')
 
@@ -108,15 +110,26 @@ while True:
             writer.writerow(row)
         print(f'Wrote {posts_file}.')
 
-    # Set the retry delay to 15 minutes (reddit repost limit)
-    retry_delay = 900
+    # Loop through post_data again to get the non-posted post_data count:
+    non_posted = 0
+    for entry in post_data:
+        if entry[0] != 'Posted':
+            non_posted += 1
 
-    # But if there's no un-posted entries in posts_file, set retry_delay to default_retry to lower news API calls.
-    if non_posted <= 0:
+    # Initialize the retry delay
+    retry_delay = 0
+
+    # Determine when to run again:
+    # a) If there's no un-posted entries in posts_file, set retry_delay to default_retry to lower news API calls.
+    if non_posted == 0:
         retry_delay = default_retry
+    # b) Otherwise set retry_delay to reddit_retry to post sooner.
+    else:
+        retry_delay = reddit_retry
+    run_again_at = datetime.now() + timedelta(seconds=retry_delay)
 
     # Pause and wait for a re-run.
-    print(f'Waiting to run again @ {datetime.now() + timedelta(seconds=retry_delay)} (CTRL+C to QUIT)')
+    print(f'Waiting to run again in {retry_delay} seconds, @ {run_again_at} (CTRL+C to QUIT)')
     try:
         time.sleep(retry_delay)
     except:
