@@ -58,6 +58,7 @@ while True:
         # Iterate through all the search strings:
         for search_string in search_strings:
             print(f'\t"{search_string}":')
+            
             # Try get MediaStack articles:
             try:
                 article_count = 0
