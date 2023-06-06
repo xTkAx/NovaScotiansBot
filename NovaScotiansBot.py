@@ -50,7 +50,7 @@ while True:
     print(f'{non_posted} not posted.')
 
     # If there is nothing to post:
-    if non_posted != 0:
+    if non_posted == 0:
         # Get news from APIs:
         print('Gathering articles from APIs:')
         new_articles = []
@@ -58,7 +58,7 @@ while True:
         # Iterate through all the search strings:
         for search_string in search_strings:
             print(f'\t"{search_string}":')
-            
+
             # Try get MediaStack articles:
             try:
                 article_count = 0
