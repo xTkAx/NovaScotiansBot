@@ -35,7 +35,7 @@ get_news()
 
 def get_news(search_string):
     # Clean the search_string as required for this API:
-    search_string = search_string.strip().replace(' ', '+')
+    search_string = f'{search_string.strip().replace(" ", "%20")}'
 
     # Get today's date for the search
     todays_date = f'{datetime.now().year}-{datetime.now().month:02d}-{datetime.now().day:02d}'

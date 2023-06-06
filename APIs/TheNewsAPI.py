@@ -34,7 +34,11 @@ get_news()
 
 def get_news(search_string):
     # Clean the search_string as required for this API (special characters (+, -, |, ", *, ()) MUST be URL-encoded)
-    search_string = search_string.strip().replace(' ', '%20').replace('"', '%22')
+    # | = %7C = OR
+    # + = %2B = Add
+    # " = %22 = open/close term.
+    #   = %20 = space.
+    search_string = f'%22{search_string.strip().replace(" ", "%20")}%22'
 
     # Get today's date for the search
     todays_date = f'{datetime.now().year}-{datetime.now().month:02d}-{datetime.now().day:02d}'

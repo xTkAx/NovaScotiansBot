@@ -20,8 +20,8 @@ reddit_retry = 900  # Every 15 minutes
 # Define the Posts csv file:
 posts_file = 'Posts.csv'
 
-# Define the search string:
-search_string = 'Nova Scotia'
+# Define the search strings:
+search_strings = ['Nova Scotia', 'Scotians']
 
 # The main program loop (on a timer (see the end))
 while True:
@@ -50,30 +50,33 @@ while True:
     print(f'{non_posted} not posted.')
 
     # If there is nothing to post:
-    if non_posted == 0:
+    if non_posted != 0:
         # Get news from APIs:
-        print('Gathering articles from APIs.')
+        print('Gathering articles from APIs:')
         new_articles = []
 
-        # Try get MediaStack articles:
-        try:
-            article_count = 0
-            for article in MediaStackAPI.get_news(search_string):
-                new_articles.append(article)
-                article_count += 1
-            print(f'\t{article_count} articles retrieved from MediaStack.')
-        except Exception as e:
-            print(f'\tProblem with MediaStackAPI:\r\n\t[ {e} ]')
+        # Iterate through all the search strings:
+        for search_string in search_strings:
+            print(f'\t"{search_string}":')
+            # Try get MediaStack articles:
+            try:
+                article_count = 0
+                for article in MediaStackAPI.get_news(search_string):
+                    new_articles.append(article)
+                    article_count += 1
+                print(f'\t\t{article_count} articles found on MediaStack.')
+            except Exception as e:
+                print(f'\t\tProblem with MediaStackAPI:\r\n\t\t[ {e} ]')
 
-        # Try get TheNewsAPI articles:
-        try:
-            article_count = 0
-            for article in TheNewsAPI.get_news(search_string):
-                new_articles.append(article)
-                article_count += 1
-            print(f'\t{article_count} articles retrieved from TheNewsAPI.')
-        except Exception as e:
-            print(f'\tProblem with TheNewsAPI:\r\n\t[ {e} ]')
+            # Try get TheNewsAPI articles:
+            try:
+                article_count = 0
+                for article in TheNewsAPI.get_news(search_string):
+                    new_articles.append(article)
+                    article_count += 1
+                print(f'\t\t{article_count} articles found on TheNewsAPI.')
+            except Exception as e:
+                print(f'\t\tProblem with TheNewsAPI:\r\n\t\t[ {e} ]')
 
         # Loop through new_articles and check if article is in post_data
         new_posts = 0
