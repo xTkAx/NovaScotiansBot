@@ -71,15 +71,17 @@ def get_news(search_string):
 
         # For this API we need to check titles urls and descriptions for the search_string
         # because it's a bad API that will search "multiple terms" as Multiple OR terms.
-        search_regex = search_string.replace('%20', '').upper()
-        title_test = title.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
-        url_test = url.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
-        desc_test = description.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
+        test_search_regex = search_string.replace('%20', '').upper()
+        test_title = title.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
+        test_url = url.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').\
+            replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('\'', '').upper()
+        test_desc = description.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').\
+            replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('\'', '').upper()
         # Check all tests and Skip any entries that don't match:
-        if not re.search(search_regex, title_test) or \
-           not re.search(search_regex, url_test) or \
-           not re.search(search_regex, desc_test):
-            continue
+        if not re.search(test_search_regex, test_title):
+            if not re.search(test_search_regex, test_url):
+                if not re.search(test_search_regex, test_desc):
+                    continue
 
         # Yield the article to the caller:
         yield ['', title, url]
