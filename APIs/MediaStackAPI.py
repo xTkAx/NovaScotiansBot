@@ -76,9 +76,9 @@ def get_news(search_string):
         url_test = url.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
         desc_test = description.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
         # Check all tests and Skip any entries that don't match:
-        if not re.search(search_regex, title_test) and \
-                not re.search(search_regex, url_test) and \
-                not re.search(search_regex, desc_test):
+        if not re.search(search_regex, title_test) or \
+           not re.search(search_regex, url_test) or \
+           not re.search(search_regex, desc_test):
             continue
 
         # Yield the article to the caller:
