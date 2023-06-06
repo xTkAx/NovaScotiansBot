@@ -70,14 +70,15 @@ def get_news(search_string):
         description = block['description']
 
         # For this API we need to check titles urls and descriptions for the search_string
-        # because it's a bad API that will search "multiple terms" as Multiple OR terms.
+        # because it's a bad API that will search "multiple terms" as 'multiple OR terms'.
+        # It's hacky and messy, but works:
         test_search_regex = search_string.replace('%20', '').upper()
         test_title = title.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
         test_url = url.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').\
             replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('\'', '').upper()
         test_desc = description.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').\
             replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('\'', '').upper()
-        # Check all tests and Skip any entries that don't match:
+        # Check all tests and skip any entries where the title, url or description don't match the search_string:
         if not re.search(test_search_regex, test_title):
             if not re.search(test_search_regex, test_url):
                 if not re.search(test_search_regex, test_desc):

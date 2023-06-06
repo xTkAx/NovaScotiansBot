@@ -17,11 +17,14 @@ default_retry = 5400  # Every 1.5 hours
 # Define the reddit repost delay in seconds before a retry:
 reddit_retry = 900  # Every 15 minutes
 
-# Define the Posts csv file:
+# Define the Posts csv file to keep track of what was posted today:
 posts_file = 'Posts.csv'
 
 # Define the search strings:
 search_strings = ['Nova Scotia', 'Scotians']
+
+# Define current date (yyyyMMdd) (used to handle posts_file cleanup):
+current_date = f'{datetime.now().year}{datetime.now().month:02d}{datetime.now().day:02d}'
 
 # The main program loop (on a timer (see the end))
 while True:
@@ -45,12 +48,30 @@ while True:
     # Loop through post_data to get the non-posted post_data count:
     non_posted = 0
     for entry in post_data:
+        # If it was posted:
         if entry[0] != 'Posted':
+            # Increment the count:
             non_posted += 1
     print(f'{non_posted} not posted.')
 
+    # Get this loop's run date:
+    current_run_date = f'{datetime.now().year}{datetime.now().month:02d}{datetime.now().day:02d}'
+
+    # If it's a new day
+    if current_run_date != current_date:
+        # If there's no posts left to post:
+        if non_posted == 0:
+            # If the posts_file exists:
+            if os.path.exists(posts_file):
+                # Delete it:
+                os.remove(posts_file)
+                print(f'Deleted {posts_file} because it\'s a new day: {current_run_date}.')
+            # Set the new current_date:
+            current_date = current_run_date
+
     # If there is nothing to post:
     if non_posted == 0:
+
         # Get news from APIs:
         print('Gathering articles from APIs:')
         new_articles = []
@@ -114,7 +135,7 @@ while True:
             writer.writerow(row)
         print(f'Wrote {posts_file}.')
 
-    # Loop through post_data again to get the non-posted post_data count:
+    # Loop through post_data again to get the non-posted post_data count to determine when to run again:
     non_posted = 0
     for entry in post_data:
         if entry[0] != 'Posted':
