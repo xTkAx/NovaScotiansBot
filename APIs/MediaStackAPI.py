@@ -10,6 +10,8 @@ MediaStackAPI
     api.mediastack.com/v1/news?access_key={MEDIASTACK_API_KEY}&keywords={search_string}&date={todays_date}&languages=en
 
 """
+import re
+
 import requests
 from datetime import datetime
 from AccountConfiguration.AccountConfig import MEDIASTACK_API_KEY
@@ -63,6 +65,21 @@ def get_news(search_string):
         # Get the 'title' and 'url':
         title = block['title']
         url = block['url']
+
+        # Get the description too:
+        description = block['description']
+
+        # For this API we need to check titles urls and descriptions for the search_string
+        # because it's a bad API that will search "multiple terms" as Multiple OR terms.
+        search_regex = search_string.replace('%20', '').upper()
+        title_test = title.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
+        url_test = url.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
+        desc_test = description.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
+        # Check all tests and Skip any entries that don't match:
+        if not re.search(search_regex, title_test) and \
+                not re.search(search_regex, url_test) and \
+                not re.search(search_regex, desc_test):
+            continue
 
         # Yield the article to the caller:
         yield ['', title, url]

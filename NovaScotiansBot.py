@@ -14,7 +14,7 @@ from APIs import RedditAPI, MediaStackAPI, TheNewsAPI
 # Define the default delay in seconds before a retry:
 default_retry = 5400  # Every 1.5 hours
 
-# Define the reddit replst delay in seconds before a retry:
+# Define the reddit repost delay in seconds before a retry:
 reddit_retry = 900  # Every 15 minutes
 
 # Define the Posts csv file:
