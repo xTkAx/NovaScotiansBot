@@ -83,7 +83,7 @@ def get_news(search_string, show_rejected=False):
             if not re.search(test_search_regex, test_url):
                 if not re.search(test_search_regex, test_desc):
                     if show_rejected:
-                        print(f'Reject from MetaStakAPI.py: {title} | {url}')
+                        print(f'Reject from MetaStackAPI.py: {title} | {url}')
                     continue
 
         # Yield the article to the caller:
