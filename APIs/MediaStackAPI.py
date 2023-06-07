@@ -71,7 +71,10 @@ def get_news(search_string, show_rejected=False):
 
         # For this API we need to check titles urls and descriptions for the search_string
         # because it's a bad API that will search "multiple terms" as 'multiple OR terms'.
-        # It's hacky and messy, but works:
+        # So what below is doing is dropping all the spaces and a few select characters in
+        # the strings and making them all UPPERCASE and comparing the fields to the search_string
+        # which is uppercase too.
+        # It's hacky and messy, and it could be better, but for now it works:
         test_search_regex = search_string.replace('%20', '').upper()
         test_title = title.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
         test_url = url.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').\
