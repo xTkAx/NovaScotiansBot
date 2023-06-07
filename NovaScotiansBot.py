@@ -12,6 +12,9 @@ import time
 from datetime import datetime, timedelta
 from APIs import RedditAPI, MediaStackAPI, TheNewsAPI
 
+# Define the search strings:
+search_strings = ['Nova Scotia', 'Scotians', 'Scotian']  # Yes! this is what you want to edit!
+
 # Define the default delay in seconds before a retry:
 default_retry = 5400  # Every 1.5 hours
 
@@ -20,9 +23,6 @@ reddit_retry = 900  # Every 15 minutes
 
 # Define the Posts csv file to keep track of what was posted today:
 posts_file = 'Posts.csv'
-
-# Define the search strings:
-search_strings = ['Nova Scotia', 'Scotians', 'Scotian']
 
 # Define current date (yyyyMMdd) (used to handle posts_file cleanup):
 current_date = f'{datetime.now().year}{datetime.now().month:02d}{datetime.now().day:02d}'
