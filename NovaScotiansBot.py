@@ -6,6 +6,7 @@ NovaScotiansBot
 """
 import csv
 import os
+import shutil
 import sys
 import time
 from datetime import datetime, timedelta
@@ -21,12 +22,12 @@ reddit_retry = 900  # Every 15 minutes
 posts_file = 'Posts.csv'
 
 # Define the search strings:
-search_strings = ['Nova Scotia', 'Scotians']
+search_strings = ['Nova Scotia', 'Scotians', 'Scotian']
 
 # Define current date (yyyyMMdd) (used to handle posts_file cleanup):
 current_date = f'{datetime.now().year}{datetime.now().month:02d}{datetime.now().day:02d}'
 
-# The main program loop (on a timer (see the end))
+# The main program loop (on a timer [see the end])
 while True:
     # Initialize an empty list to store data from posts_file
     post_data = []
@@ -63,9 +64,10 @@ while True:
         if non_posted == 0:
             # If the posts_file exists:
             if os.path.exists(posts_file):
-                # Delete it:
-                os.remove(posts_file)
-                print(f'Deleted {posts_file} because it\'s a new day: {current_run_date}.')
+                # Move it to a new filename:
+                backup_file = f'{posts_file}{current_date}'
+                shutil.move(posts_file, backup_file)
+                print(f'New day: {current_run_date} > - {posts_file} -moved to-> {backup_file}.')
             # Set the new current_date:
             current_date = current_run_date
 
@@ -83,7 +85,7 @@ while True:
             # Try get MediaStack articles:
             try:
                 article_count = 0
-                for article in MediaStackAPI.get_news(search_string):
+                for article in MediaStackAPI.get_news(search_string, False):  # False (def.) hides, True shows: rejects.
                     new_articles.append(article)
                     article_count += 1
                 print(f'\t\t{article_count} articles found on MediaStack.')

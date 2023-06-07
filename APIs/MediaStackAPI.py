@@ -35,7 +35,7 @@ get_news()
 """
 
 
-def get_news(search_string):
+def get_news(search_string, show_rejected=False):
     # Clean the search_string as required for this API:
     search_string = f'{search_string.strip().replace(" ", "%20")}'
 
@@ -82,6 +82,8 @@ def get_news(search_string):
         if not re.search(test_search_regex, test_title):
             if not re.search(test_search_regex, test_url):
                 if not re.search(test_search_regex, test_desc):
+                    if show_rejected:
+                        print(f'Reject from MetaStakAPI.py: {title} | {url}')
                     continue
 
         # Yield the article to the caller:
