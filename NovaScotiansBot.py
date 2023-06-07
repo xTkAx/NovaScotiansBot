@@ -24,6 +24,9 @@ reddit_retry = 900  # Every 15 minutes
 # Define the Posts csv file to keep track of what was posted today:
 posts_file = 'Posts.csv'
 
+# Flag to display custom API search rejects and see what won't be posting:
+display_rejects = False
+
 # Define current date (yyyyMMdd) (used to handle posts_file cleanup):
 current_date = f'{datetime.now().year}{datetime.now().month:02d}{datetime.now().day:02d}'
 
@@ -64,9 +67,10 @@ while True:
         if non_posted == 0:
             # If the posts_file exists:
             if os.path.exists(posts_file):
-                # Move it to a new filename:
+                # Move it to a new filename & reset post_data:
                 backup_file = f'{posts_file}{current_date}'
                 shutil.move(posts_file, backup_file)
+                post_data = []
                 print(f'New day: {current_run_date} > - {posts_file} -moved to-> {backup_file}.')
             # Set the new current_date:
             current_date = current_run_date
@@ -85,7 +89,7 @@ while True:
             # Try get MediaStack articles:
             try:
                 article_count = 0
-                for article in MediaStackAPI.get_news(search_string, False):  # False (def.) hides, True shows: rejects.
+                for article in MediaStackAPI.get_news(search_string, display_rejects):
                     new_articles.append(article)
                     article_count += 1
                 print(f'\t\t{article_count} articles found on MediaStack.')

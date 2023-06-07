@@ -5,7 +5,7 @@ RedditAPI
 
 """
 import praw
-from AccountConfiguration.AccountConfig import CLIENT_ID, CLIENT_SECRET, USERNAME, PASSWORD, USER_AGENT, SUBREDDIT
+from AccountConfig import CLIENT_ID, CLIENT_SECRET, USERNAME, PASSWORD, USER_AGENT, SUBREDDIT
 
 
 def post_article(title, url):

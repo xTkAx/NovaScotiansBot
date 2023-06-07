@@ -14,7 +14,7 @@ import re
 
 import requests
 from datetime import datetime
-from AccountConfiguration.AccountConfig import MEDIASTACK_API_KEY
+from AccountConfig import MEDIASTACK_API_KEY
 
 # region get_news()
 """

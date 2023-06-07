@@ -9,7 +9,7 @@ Can be modified to become your own subreddit news bot!
      - Find a subreddit to use the bot in (work with a mod, or make a new one).
   -  https://www.mediastack.com (News API) 
   -  https://www.thenewsapi.com (News API)
-- Assign the private data to the relevant variables inside the file: <b>./AccountConfiguration/AccountConfig.py</b>
+- Assign the private data to the relevant variables inside the file: <b>AccountConfig.py</b>
 - Look in the file <b>NovaScotiansBot.py</b> for the following code:
   - <code>search_strings = ['Nova Scotia', 'Scotians', 'Scotian']</code>
   - Replace <b>'Nova Scotia', 'Scotians', 'Scotian'</b> with what keywords you want to get news for.
