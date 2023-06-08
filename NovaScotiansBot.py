@@ -13,7 +13,10 @@ from datetime import datetime, timedelta
 from APIs import RedditAPI, MediaStackAPI, TheNewsAPI
 
 # Define the search strings:
-search_strings = ['Nova Scotia', 'Scotians', 'Scotian']  # Yes! this is what you want to edit!
+search_strings = ['Nova Scotia', 'Scotian']  # Yes! this is what you want to edit!
+
+# A hacky switch (for now) to run the entire script as just a monthly chat post:
+only_post_monthly_lounge = False
 
 # Define the default delay in seconds before a retry:
 default_retry = 5400  # Every 1.5 hours
@@ -29,6 +32,23 @@ display_rejects = False
 
 # Define current date (yyyyMMdd) (used to handle posts_file cleanup):
 current_date = f'{datetime.now().year}{datetime.now().month:02d}{datetime.now().day:02d}'
+
+# An intercept to handle posting the monthly lounge/chat:
+if only_post_monthly_lounge:
+    lounge_date = f"{datetime.now().strftime('%B')}, {datetime.now().year}"
+
+    lounge_title = f'Chat Lounge For {lounge_date}'  # This will be prefixed with r/SubredditName in RedditAPI call.
+
+    lounge_description = f'#The {lounge_date} Chat Lounge - Chat about *anything** you want!\r\n' \
+                         f'*Within reddit rules & with somewhat relaxed sub-rules - be yourself (but not an ass)!'
+
+    try:
+        RedditAPI.create_new_monthly_lounge(lounge_title, lounge_description)
+        print(f'Monthly Lounge posted, exiting')
+    except Exception as e:
+        print(f'Error Posting Monthly Lounge:\r\n\t[ {e} ]')
+
+    sys.exit()
 
 # The main program loop (on a timer [see the end])
 while True:

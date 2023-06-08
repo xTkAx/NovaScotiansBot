@@ -6,13 +6,13 @@ Can be modified to become your own subreddit news bot!
 ## How To Use:
 - Set up an account for your bot & get API keys for the following services:
   -  https://www.reddit.com (Reddit API) +
-     - Find a subreddit to use the bot in (work with a mod, or make a new one).
+     - Find a subreddit to use the bot in (work with a mod, or make a new one), and make it an approved user (or mod user if you want to use Chat Lounge.
   -  https://www.mediastack.com (News API) 
   -  https://www.thenewsapi.com (News API)
 - Assign the private data to the relevant variables inside the file: <b>AccountConfig.py</b>
 - Look in the file <b>NovaScotiansBot.py</b> for the following code:
-  - <code>search_strings = ['Nova Scotia', 'Scotians', 'Scotian']</code>
-  - Replace <b>'Nova Scotia', 'Scotians', 'Scotian'</b> with what keywords you want to get news for.
+  - <code>search_strings = ['Nova Scotia', 'Scotian']</code>
+  - Replace <b>'Nova Scotia', 'Scotian'</b> with what keywords you want to get news for.
 - Use <B>Python 3</B> to run <b>NovaScotiansBot.py</b>:
   - <code>python3 NovaScotiansBot.py </code>
   - The script will run on a loop:
