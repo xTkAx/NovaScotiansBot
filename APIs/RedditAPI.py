@@ -52,7 +52,7 @@ def create_new_monthly_lounge(lounge_title, lounge_description):
             old_lounge_sticky_id = praw.subreddit(SUBREDDIT).sticky(2).id
             print(f'Found current Lounge sticky ID: {old_lounge_sticky_id}')
     except Exception as e:
-        print(f'No Lounge sticky ID\'s found from user: {USERNAME}.\r\n[ {e} ]')
+        print(f'Problem searching stickies: [ {e} ]')
 
     # If the old_lounge_sticky_id was found:
     if old_lounge_sticky_id != '':
@@ -60,8 +60,13 @@ def create_new_monthly_lounge(lounge_title, lounge_description):
             submission = praw.submission(old_lounge_sticky_id)
             suppress_screen_text = submission.mod.sticky(False, False)
             print(f'Unstickied old Lounge sticky ID: {old_lounge_sticky_id}')
+            # Append lounge_description with a link to the last Chat Lounge:
+            #lounge_description = f'{lounge_description}\r\n[Last month\'s Chat Lounge]' \
+            #                     f'(https://reddit.com/r/{SUBREDDIT}/comments/{old_lounge_sticky_id}/)'
         except Exception as e:
             print(f'Could not unsticky Lounge sticky: [ {e} ]')
+    else:
+        print(f'No Lounge sticky ID\'s found from user: {USERNAME}.\r\n[ {e} ]')
 
     # Try post the new Lounge post:
     try:

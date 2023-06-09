@@ -11,7 +11,7 @@ Can be modified to become your own subreddit news bot!
   -  https://www.thenewsapi.com (News API)
 - Assign the private data to the relevant variables inside the file: <b>AccountConfig.py</b>
 - Look in the file <b>NovaScotiansBot.py</b> for the following code:
-  - <code>search_strings = ['Nova Scotia', 'Scotian']</code>
+  - <code>user_defined_search_strings = ['Nova Scotia', 'Scotian']</code>
   - Replace <b>'Nova Scotia', 'Scotian'</b> with what keywords you want to get news for.
 - Use <B>Python 3</B> to run <b>NovaScotiansBot.py</b>:
   - <code>python3 NovaScotiansBot.py </code>
