@@ -7,7 +7,7 @@ RedditAPI
 
 """
 import praw
-from AccountConfig import CLIENT_ID, CLIENT_SECRET, USERNAME, PASSWORD, USER_AGENT, SUBREDDIT
+from NovaScotiansBotConfig import CLIENT_ID, CLIENT_SECRET, USERNAME, PASSWORD, USER_AGENT, SUBREDDIT
 
 
 def __define_praw_reddit_object():

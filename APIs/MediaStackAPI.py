@@ -14,7 +14,7 @@ import re
 
 import requests
 from datetime import datetime
-from AccountConfig import MEDIASTACK_API_KEY
+from NovaScotiansBotConfig import MEDIASTACK_API_KEY
 
 # region get_news()
 """

@@ -11,7 +11,7 @@ TheNewsAPI
 """
 import requests
 from datetime import datetime
-from AccountConfig import THENEWSAPI_KEY
+from NovaScotiansBotConfig import THENEWSAPI_KEY
 
 # region get_news()
 """
