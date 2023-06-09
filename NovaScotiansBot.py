@@ -22,9 +22,9 @@ from APIs import RedditAPI, MediaStackAPI, TheNewsAPI
 
 user_defined_search_strings = ['Nova Scotia', 'Scotian']  # Yes! this is what you want to edit!
 
-this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = True  # True or False?
+this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # True or False?
 
-archive_posts_file = True  # True will reset the posts_file every day.  False will keep building up 1 post_file.
+archive_posts_file = False  # True will reset the posts_file every day.  False will keep building up 1 post_file.
 
 posts_file = 'Posts.csv'  # The filename where all the daily article data is stored.
 
