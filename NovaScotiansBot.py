@@ -16,6 +16,38 @@ from APIs import RedditAPI, MediaStackAPI, TheNewsAPI
 # endregion Libraries
 
 
+# region User-Defined Variables:
+
+user_defined_search_strings = ['Nova Scotia', 'Scotian']  # Yes! this is what you want to edit!
+
+this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # True or False?
+
+posts_file = 'Posts.csv'  # The filename where all the daily article data is stored.
+
+default_retry = 5400  # 1.5 hour delay before retrying the API's (lowers API calls which can run out in a month).
+
+reddit_retry = 900  # 15 minute reddit delay if there are still more posts left to post from posts_file.
+
+display_rejects = False  # This will display any rejected posts from custom API article search.
+
+# endregion User-Defined Variables
+
+
+# region Script Variables:
+
+# Define a string for posts_file records to record a successful reddit post:
+successful_post_string = 'Posted'
+
+# Get the script start_time:
+start_time = datetime.now()
+
+# Define time variables:
+current_day = f'{start_time.year}{start_time.month:02d}{start_time.day:02d}'
+current_month = f'{start_time.year}{start_time.month:02d}'
+
+# endregion Script Variables
+
+
 # region Methods:
 
 # region get_csv_array(file):
@@ -272,38 +304,6 @@ def get_articles_from_apis(search_strings):
 # endregion get_articles_from_apis(search_strings)
 
 # endregion Methods
-
-
-# region User-Defined Variables:
-
-user_defined_search_strings = ['Nova Scotia', 'Scotian']  # Yes! this is what you want to edit!
-
-this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # True or False?
-
-posts_file = 'Posts.csv'  # The filename where all the daily article data is stored.
-
-default_retry = 5400  # 1.5 hour delay before retrying the API's (lowers API calls which can run out in a month).
-
-reddit_retry = 900  # 15 minute reddit delay if there are still more posts left to post from posts_file.
-
-display_rejects = False  # This will display any rejected posts from custom API article search.
-
-# endregion User-Defined Variables
-
-
-# region Script Variables:
-
-# Define a string for posts_file records to record a successful reddit post:
-successful_post_string = 'Posted'
-
-# Get the script start_time:
-start_time = datetime.now()
-
-# Define time variables:
-current_day = f'{start_time.year}{start_time.month:02d}{start_time.day:02d}'
-current_month = f'{start_time.year}{start_time.month:02d}'
-
-# endregion Script Variables
 
 
 # region Main Program Loop:
