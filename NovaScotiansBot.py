@@ -366,7 +366,7 @@ def add_new_articles_to_post_data(posts, new_posts):
 # endregion Methods
 
 
-# region Main Program Loop:
+# region Main Program:
 
 # If the user set any variable to true, write the program dates to the persistent_file:
 if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge or archive_posts_file:
@@ -417,9 +417,10 @@ while True:
 
             current_day = loop_start_day
 
-        # If the loop is in a new month, we'll cycle the chat lounge (if the bot is a mod):
+        # If the loop is in a new month:
         if loop_start_month != current_month:
 
+            # If this the user set this to true, cycle the chat lounge:
             if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge:
                 cycle_new_chat_lounge(loop_start_time)
 
@@ -437,7 +438,7 @@ while True:
     # Write the new CSV file with the updated data:
     write_csv(post_data, posts_file)
 
-    # If the user set any variable to true, write the program dates to the persistent_file:
+    # If the user set either of these to true, write the program dates to the persistent_file:
     if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge or archive_posts_file:
         write_csv([[start_time, current_day, current_month]], persistent_date_file)
 
@@ -456,4 +457,4 @@ while True:
         print(f'\nTerminated by user.')
         sys.exit()
 
-# endregion Main Program Loop
+# endregion Main Program
