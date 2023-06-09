@@ -386,6 +386,7 @@ if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge or archive_posts_file:
 else:
     if os.path.exists(persistent_date_file):
         os.remove(persistent_date_file)
+        print(f'{persistent_date_file} was purged.')
 
 while True:
     # Get the time this loop started:
