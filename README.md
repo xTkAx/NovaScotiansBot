@@ -20,7 +20,7 @@ This repository contains <b>Python 3</b> code to drive a Nova Scotia news bot re
    - Look for: <code>this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False</code>.
      - Set it to <b>True</b> if the bot is a mod in the subreddit, and you want it to cycle a monthly '<b>r/SubReddit Chat Lounge For Month, YYYY</b>' live sticky post.
        - This will occur every time a new month is detected.
-     - Leave it set to <b>False</b> if the bot is not a mod in the subreddit, or you don't want it to cycle a monthly Chat Lounge. 
+     - Leave it set to <b>False</b> if the bot is not a mod in the subreddit, and you don't want it to cycle a monthly Chat Lounge. 
    - Look for: <code>archive_posts_file = False</code>.
      - Set it to <b>True</b> if you would like to reset the <b>Posts.csv</b> every day.
        - When a new day is detected, the script will move <b>Posts.csv</b> to <b><i>yyyyMMdd.</i>Posts.csv</b> for archiving, and begin a new <b>Posts.csv</b>.
