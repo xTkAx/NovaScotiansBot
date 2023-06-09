@@ -22,6 +22,8 @@ user_defined_search_strings = ['Nova Scotia', 'Scotian']  # Yes! this is what yo
 
 this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # True or False?
 
+archive_posts_file = False  # True will reset the posts_file every day.  False will keep building up 1 post_file.
+
 posts_file = 'Posts.csv'  # The filename where all the daily article data is stored.
 
 default_retry = 5400  # 1.5 hour delay before retrying the APIs (lowers API calls which can run out in a month).
@@ -257,7 +259,6 @@ def cycle_new_chat_lounge(current_date):
 # endregion cycle_new_chat_lounge(current_date):
 
 # region get_articles_from_apis(search_strings):
-
 """
     This method will get news articles from all APIs.  
     
@@ -310,6 +311,56 @@ def get_articles_from_apis(search_strings):
 
 # endregion get_articles_from_apis(search_strings)
 
+# region add_new_articles_to_post_data(posts, new_posts):
+"""
+    This method will identify any new_posts not in posts, then add them to posts, and return the object.  
+
+    Parameters:
+        posts:              The posts array to compare and populate to.
+        new_posts:          The new posts array to compare and populate missing articles from.
+
+    Returns:
+        The updated posts object.
+
+"""
+
+
+def add_new_articles_to_post_data(posts, new_posts):
+    new_posts_count = 0
+
+    for article in new_posts:
+
+        new_title = article[1]  # assuming Title column is always the 2nd column
+
+        new_url = article[2]  # assuming URL column is always the 3rd column
+
+        entry_found = False
+
+        for post_entry in posts:
+
+            post_title = post_entry[1]
+
+            post_url = post_entry[2]
+
+            if new_url.upper() == post_url.upper() or new_title.upper() == post_title.upper():
+
+                entry_found = True
+
+                break
+
+        # If entry not found in posts:
+        if not entry_found:
+
+            posts.append(article)
+
+            new_posts_count += 1
+
+    print(f'{new_posts_count} new posts were added.')
+
+    return posts
+
+# endregion add_new_articles_to_post_data(posts, new_posts)
+
 # endregion Methods
 
 
@@ -343,12 +394,14 @@ while True:
     # If there is nothing to post:
     if unposted_count == 0:
 
-        # If the loop is in a new day, and the posts_file exists:
-        if loop_start_day != current_day and os.path.exists(posts_file):
-            archive_file(posts_file, current_day)
+        # If the loop is in a new day:
+        if loop_start_day != current_day:
 
-            # Reset post_data:
-            post_data = []
+            # If the posts_file exists, and the user set archive_posts_file = True:
+            if os.path.exists(posts_file) and archive_posts_file:
+                archive_file(posts_file, current_day)
+                # Reset post_data:
+                post_data = []
 
             current_day = loop_start_day
 
@@ -363,26 +416,8 @@ while True:
         # Get new_articles:
         new_articles = get_articles_from_apis(user_defined_search_strings)
 
-        ##### CLEANUP BELOW HERE:
-        # Loop through new_articles and check if article is in post_data
-        new_posts = 0
-        for new_article in new_articles:
-            new_title = new_article[1]  # assuming Title column is always the 2nd column
-            new_url = new_article[2]  # assuming URL column is always the 3rd column
-            entry_found = False
-            for post_entry in post_data:
-                post_title = post_entry[1]
-                post_url = post_entry[2]
-                if new_url == post_url or new_title == post_title:
-                    entry_found = True
-                    break
-            # If entry not found in post_data, append the new_entry to post_data
-            if not entry_found:
-                post_data.append(new_article)
-                new_posts += 1
-        print(f'{new_posts} new posts were retrieved from all APIs.')
-
-    #### CLEANUP ABOVE HERE:
+        # Add any new_articles not in post_data to post_data:
+        post_data = add_new_articles_to_post_data(post_data, new_articles)
 
     # Try to post the unposted posts to reddit:
     post_data = post_unposted_to_reddit(post_data, successful_post_string)
