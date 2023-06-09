@@ -9,6 +9,8 @@ MediaStackAPI
     An example url to search for news articles:
     api.mediastack.com/v1/news?access_key={MEDIASTACK_API_KEY}&keywords={search_string}&date={todays_date}&languages=en
 
+    https://github.com/xTkAx/NovaScotiansBot
+
 """
 import re
 

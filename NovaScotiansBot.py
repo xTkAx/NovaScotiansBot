@@ -3,6 +3,8 @@ NovaScotiansBot
 
     This script contains the processes required to post news articles to https://www.reddit.com/r/NovaScotians
 
+    https://github.com/xTkAx/NovaScotiansBot
+
 """
 # region Libraries
 import csv
@@ -375,6 +377,9 @@ if len(last_run_dates) == 1:
     start_time = last_run_dates[0][0]
     current_day = last_run_dates[0][1]
     current_month = last_run_dates[0][2]
+else:
+    if os.path.exists(persistent_date_file):
+        print(f'{persistent_date_file} was expected to have 1 row of data, but had {len(last_run_dates)}.')
 
 while True:
     # Get the time this loop started:
@@ -425,8 +430,9 @@ while True:
     # Write the new CSV file with the updated data:
     write_csv(post_data, posts_file)
 
-    # Write the program dates to the persistent_file:
-    write_csv([[start_time, current_day, current_month]], persistent_date_file)
+    # If the user set any variable to true, write the program dates to the persistent_file:
+    if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge or archive_posts_file:
+        write_csv([[start_time, current_day, current_month]], persistent_date_file)
 
     # Initialize the retry_delay:
     retry_delay = default_retry if count_col_matches(post_data, successful_post_string, False) == 0 else reddit_retry

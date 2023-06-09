@@ -8,6 +8,8 @@ TheNewsAPI
     An example url to search for news articles:
     api.thenewsapi.com/v1/news/all?api_token={THENEWSAPI_KEY}&search={search_string}&published_on={todays_date}&language=en
 
+    https://github.com/xTkAx/NovaScotiansBot
+
 """
 import requests
 from datetime import datetime

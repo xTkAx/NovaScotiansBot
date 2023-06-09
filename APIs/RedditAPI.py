@@ -5,6 +5,8 @@ RedditAPI
 
     Documentation: https://praw.readthedocs.io/en/stable/index.html
 
+    https://github.com/xTkAx/NovaScotiansBot
+
 """
 import praw
 from NovaScotiansBotConfig import CLIENT_ID, CLIENT_SECRET, USERNAME, PASSWORD, USER_AGENT, SUBREDDIT

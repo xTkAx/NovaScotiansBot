@@ -6,6 +6,8 @@ AccountConfig
         -MEDIASTACK API
         -THENEWSAPI API
 
+    https://github.com/xTkAx/NovaScotiansBot
+
 """
 
 # region PRAW REDDIT API DATA:
