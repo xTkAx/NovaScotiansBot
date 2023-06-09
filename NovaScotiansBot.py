@@ -22,9 +22,9 @@ from APIs import RedditAPI, MediaStackAPI, TheNewsAPI
 
 user_defined_search_strings = ['Nova Scotia', 'Scotian']  # Yes! this is what you want to edit!
 
-this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # True or False?
+this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = True  # True or False?
 
-archive_posts_file = False  # True will reset the posts_file every day.  False will keep building up 1 post_file.
+archive_posts_file = True  # True will reset the posts_file every day.  False will keep building up 1 post_file.
 
 posts_file = 'Posts.csv'  # The filename where all the daily article data is stored.
 
@@ -368,7 +368,7 @@ def add_new_articles_to_post_data(posts, new_posts):
 
 # region Main Program:
 
-# If the user set any variable to true, write the program dates to the persistent_file:
+# If the user set either of these to true, write the program dates to the persistent_date_file:
 if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge or archive_posts_file:
     # Get data from the persistent_date_file holding any last_run_dates:
     last_run_dates = get_csv_array(persistent_date_file)
@@ -376,13 +376,14 @@ if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge or archive_posts_file:
     # If there is one line of data:
     if len(last_run_dates) == 1:
         # Set the times to the new data:
-        start_time = last_run_dates[0][0]
-        current_day = last_run_dates[0][1]
-        current_month = last_run_dates[0][2]
+        current_day = last_run_dates[0][0]
+        current_month = last_run_dates[0][1]
+
     else:
         if os.path.exists(persistent_date_file):
             print(f'{persistent_date_file} was expected to have 1 row of data, but had {len(last_run_dates)}.')
-# Otherwise clean up the persistent_date_file
+
+# Otherwise purge the persistent_date_file
 else:
     if os.path.exists(persistent_date_file):
         os.remove(persistent_date_file)
@@ -438,9 +439,9 @@ while True:
     # Write the new CSV file with the updated data:
     write_csv(post_data, posts_file)
 
-    # If the user set either of these to true, write the program dates to the persistent_file:
+    # If the user set either of these to true, write the program dates to the persistent_date_file:
     if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge or archive_posts_file:
-        write_csv([[start_time, current_day, current_month]], persistent_date_file)
+        write_csv([[current_day, current_month]], persistent_date_file)
 
     # Initialize the retry_delay:
     retry_delay = default_retry if count_col_matches(post_data, successful_post_string, False) == 0 else reddit_retry
@@ -454,7 +455,7 @@ while True:
         time.sleep(retry_delay)
 
     except:
-        print(f'\nTerminated by user.')
+        print(f'\nProgram run time: {datetime.now() - start_time}\r\nSuccessfully terminated by user.')
         sys.exit()
 
 # endregion Main Program
