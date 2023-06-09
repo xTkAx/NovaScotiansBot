@@ -368,18 +368,24 @@ def add_new_articles_to_post_data(posts, new_posts):
 
 # region Main Program Loop:
 
-# Get data from the persistent_date_file holding any last_run_dates:
-last_run_dates = get_csv_array(persistent_date_file)
+# If the user set any variable to true, write the program dates to the persistent_file:
+if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge or archive_posts_file:
+    # Get data from the persistent_date_file holding any last_run_dates:
+    last_run_dates = get_csv_array(persistent_date_file)
 
-# If there is one line of data:
-if len(last_run_dates) == 1:
-    # Set the times to the new data:
-    start_time = last_run_dates[0][0]
-    current_day = last_run_dates[0][1]
-    current_month = last_run_dates[0][2]
+    # If there is one line of data:
+    if len(last_run_dates) == 1:
+        # Set the times to the new data:
+        start_time = last_run_dates[0][0]
+        current_day = last_run_dates[0][1]
+        current_month = last_run_dates[0][2]
+    else:
+        if os.path.exists(persistent_date_file):
+            print(f'{persistent_date_file} was expected to have 1 row of data, but had {len(last_run_dates)}.')
+# Otherwise clean up the persistent_date_file
 else:
     if os.path.exists(persistent_date_file):
-        print(f'{persistent_date_file} was expected to have 1 row of data, but had {len(last_run_dates)}.')
+        os.remove(persistent_date_file)
 
 while True:
     # Get the time this loop started:
