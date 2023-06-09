@@ -24,13 +24,9 @@ this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # True or False?
 
 posts_file = 'Posts.csv'  # The filename where all the daily article data is stored.
 
-persistent_file = 'NovaScotiansBot.dat'  # The file name where the programs persistent data will be stored.
-
 default_retry = 5400  # 1.5 hour delay before retrying the APIs (lowers API calls which can run out in a month).
 
 reddit_retry = 900  # 15 minute reddit delay if there are still more posts left to post from posts_file.
-
-display_rejects = False  # This will display any rejected posts from custom API article search.
 
 # endregion User-Defined Variables
 
@@ -39,6 +35,12 @@ display_rejects = False  # This will display any rejected posts from custom API 
 
 # Define a string for posts_file records to record a successful reddit post:
 successful_post_string = 'Posted'
+
+# Define the file name where the script's persistent date data will be stored (to know where the date last left off).
+persistent_date_file = 'NovaScotiansBot.dat'
+
+# This will display any rejected posts from APIs with a custom article search.
+display_rejects = False
 
 # Get the script start_time:
 start_time = datetime.now()
@@ -146,7 +148,8 @@ def count_col_matches(csv_array, match_value, match=True, column=0):
     for record in csv_array:
 
         # If matching and value matches, or if not matching and value doesn't match:
-        if (match and record[column] == match_value) or (not match and record[column] != match_value):
+        if (match and record[column].upper() == match_value.upper()) or \
+                (not match and record[column].upper() != match_value.upper()):
             counter += 1
 
     return counter
@@ -213,7 +216,7 @@ def post_unposted_to_reddit(posts, match_value, column=0):
                 print(f'Posted:\r\n\t{article[1]}\r\n\t{article[2]}')
 
             except Exception as post_unposted_e:
-                print(f'post_unposted_reddit_posts() exception: {post_unposted_e}')
+                print(f'post_unposted_to_reddit() exception: {post_unposted_e}')
 
     return posts
 
@@ -272,6 +275,8 @@ def cycle_new_chat_lounge(current_date):
 def get_articles_from_apis(search_strings):
     return_articles = []
 
+    print(f'Searching APIs:')
+
     for search_string in search_strings:
 
         print(f'\t"{search_string}":')
@@ -309,12 +314,16 @@ def get_articles_from_apis(search_strings):
 
 
 # region Main Program Loop:
-program_data = get_csv_array(persistent_file)
 
-if len(program_data) == 1:
-    start_time = program_data[0][0]
-    current_day = program_data[0][1]
-    current_month = program_data[0][2]
+# Get data from the persistent_date_file holding any last_run_dates:
+last_run_dates = get_csv_array(persistent_date_file)
+
+# If there is one line of data:
+if len(last_run_dates) == 1:
+    # Set the times to the new data:
+    start_time = last_run_dates[0][0]
+    current_day = last_run_dates[0][1]
+    current_month = last_run_dates[0][2]
 
 while True:
     # Get the time this loop started:
@@ -382,7 +391,7 @@ while True:
     write_csv(post_data, posts_file)
 
     # Write the program dates to the persistent_file:
-    write_csv([[start_time, current_day, current_month]], persistent_file)
+    write_csv([[start_time, current_day, current_month]], persistent_date_file)
 
     # Initialize the retry_delay:
     retry_delay = default_retry if count_col_matches(post_data, successful_post_string, False) == 0 else reddit_retry
