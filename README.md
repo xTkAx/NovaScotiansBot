@@ -9,7 +9,7 @@ This repository contains <b>Python 3</b> code to drive a Nova Scotia news bot re
 1. Set up an account for your bot & get API keys for all the following services:
    -  https://www.reddit.com (Reddit API) +
       - Find a subreddit to use the bot in (work with a mod, or make a new one).
-      - Make it an approved user in the subreddit if the bot's karma is low (otherwise it may be limited to posting once every 15 minutes).
+      - Make the bot an approved user in the subreddit if the bot account karma is low (otherwise it may be limited to posting once every 15 minutes).
       - Make the bot a mod user if you want it to create and sticky a monthly Chat Lounge.
    -  https://www.mediastack.com (News API).
    -  https://www.thenewsapi.com (News API).
