@@ -6,7 +6,7 @@ Can be modified to become your own subreddit news bot!
 ## How To Use:
 - Set up an account for your bot & get API keys for the following services:
   -  https://www.reddit.com (Reddit API) +
-     - Find a subreddit to use the bot in (work with a mod, or make a new one), and make it an approved user (or mod user if you want to use Chat Lounge.
+     - Find a subreddit to use the bot in (work with a mod, or make a new one), and make it an approved user (or a mod user if you want the bot to create a monthly Chat Lounge.
   -  https://www.mediastack.com (News API) 
   -  https://www.thenewsapi.com (News API)
 - Assign the private data to the relevant variables inside the file: <b>AccountConfig.py</b>
