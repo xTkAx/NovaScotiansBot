@@ -29,7 +29,8 @@ This repository contains <b>Python 3</b> code to drive a Nova Scotia news bot re
     - Every 15 minutes if there are any posts in <b>Posts.csv</b> yet to be posted to reddit.
     - Every 1.5 hours if all posts have been posted to reddit (prevents excessive news API calls).
   - The script identifies if it has posted an article to reddit using <b>Posts.csv</b>, where the 1st column of data = '<b>Posted</b>'.
-  - If <code>this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = True</code> <b>OR</b> <code>archive_posts_file = True</code>, the script will save a <b>NovaScotiansBot.dat</b> file each loop.  This stores persistent time data the program needs to work smoothly in case it's stopped and restarted. 
+  - If <code>this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = True</code> <b>OR</b> <code>archive_posts_file = True</code>, the script will save data to <b>NovaScotiansBot.dat</b> on each loop.  This stores persistent time data the program needs to work smoothly in the event it is stopped and restarted. 
+    - If <u>both</u> are set to <code>False</code>, <b>NovaScotiansBot.dat</b> will be purged on program start, and will not be used.
   - CTRL+C will terminate the script.
     - To avoid the small risk of data-loss when writing to <b>Posts.csv</b> and <b>NovaScotiansBot.dat</b>, be sure to only press CTRL+C when you see: '<b><i>Waiting to run again @ yyyy-MM-DD HH:mm:ss.fff (CTRL+C to QUIT)</i></b>'.
   
