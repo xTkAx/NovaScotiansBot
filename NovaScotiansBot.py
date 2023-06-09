@@ -24,7 +24,9 @@ this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # True or False?
 
 posts_file = 'Posts.csv'  # The filename where all the daily article data is stored.
 
-default_retry = 5400  # 1.5 hour delay before retrying the API's (lowers API calls which can run out in a month).
+persistent_file = 'NovaScotiansBot.dat'  # The file name where the programs persistent data will be stored.
+
+default_retry = 5400  # 1.5 hour delay before retrying the APIs (lowers API calls which can run out in a month).
 
 reddit_retry = 900  # 15 minute reddit delay if there are still more posts left to post from posts_file.
 
@@ -199,7 +201,6 @@ def archive_file(filename, timestamp):
 
 
 def post_unposted_to_reddit(posts, match_value, column=0):
-
     for article in posts:
 
         if article[column].upper() != match_value.upper():
@@ -215,6 +216,7 @@ def post_unposted_to_reddit(posts, match_value, column=0):
                 print(f'post_unposted_reddit_posts() exception: {post_unposted_e}')
 
     return posts
+
 
 # endregion post_unposted_to_reddit(posts, match_value, column=0)
 
@@ -307,6 +309,13 @@ def get_articles_from_apis(search_strings):
 
 
 # region Main Program Loop:
+program_data = get_csv_array(persistent_file)
+
+if len(program_data) == 1:
+    start_time = program_data[0][0]
+    current_day = program_data[0][1]
+    current_month = program_data[0][2]
+
 while True:
     # Get the time this loop started:
     loop_start_time = datetime.now()
@@ -372,6 +381,9 @@ while True:
     # Write the new CSV file with the updated data:
     write_csv(post_data, posts_file)
 
+    # Write the program dates to the persistent_file:
+    write_csv([[start_time, current_day, current_month]], persistent_file)
+
     # Initialize the retry_delay:
     retry_delay = default_retry if count_col_matches(post_data, successful_post_string, False) == 0 else reddit_retry
 
@@ -383,8 +395,8 @@ while True:
     try:
         time.sleep(retry_delay)
 
-    except Exception as ctrl_c_e:
-        print(f'\nTerminated by user: {ctrl_c_e}')
+    except:
+        print(f'\nTerminated by user.')
         sys.exit()
 
 # endregion Main Program Loop
