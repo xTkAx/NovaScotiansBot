@@ -1,7 +1,7 @@
 # <u><i>NovaScotiansBot</i></u>
 ![NovaScotiansBot](https://github.com/xTkAx/NovaScotiansBot/assets/16578236/d650aed1-32bf-4d81-a835-d6816252a07c)
 
-This repository contains <b>Python 3</b> code to drive a Nova Scotia news bot reddit account, [NovaScotiansBot](https://www.reddit.com/u/NovaScotiansBot/), which will scan news APIs for Nova Scotian related news articles, and then post them to https://www.reddit.com/r/NovaScotians/.  In addition it will maintain a monthly Chat Lounge on the subreddit.
+This repository contains <b>Python 3</b> code to drive a Nova Scotia news bot reddit account, [NovaScotiansBot](https://www.reddit.com/u/NovaScotiansBot/), which will scan news APIs for Nova Scotian related news articles, and then post them to https://www.reddit.com/r/NovaScotians/.  In addition, it can maintain a monthly Chat Lounge on the subreddit.
 
 <b>Can be modified to become your very own subreddit news & monthly chat lounge bot!</b>
 
@@ -29,7 +29,7 @@ This repository contains <b>Python 3</b> code to drive a Nova Scotia news bot re
     - Every 15 minutes if there are any posts in <b>Posts.csv</b> yet to be posted to reddit.
     - Every 1.5 hours if all posts have been posted to reddit (prevents excessive news API calls).
   - The script identifies if it has posted an article to reddit using <b>Posts.csv</b>, where the 1st column of data = '<b>Posted</b>'.
-  - The script will create a new <b>NovaScotiansBot.dat</b> file each loop, which stores persistient time data the program needs to work smoothly in case it's stopped and restarted. 
+  - If <code>this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = True</code> <b>OR</b> <code>archive_posts_file = True</code>, the script will save a <b>NovaScotiansBot.dat</b> file each loop.  This stores persistent time data the program needs to work smoothly in case it's stopped and restarted. 
   - CTRL+C will terminate the script.
     - To avoid the small risk of data-loss when writing to <b>Posts.csv</b> and <b>NovaScotiansBot.dat</b>, be sure to only press CTRL+C when you see: '<b><i>Waiting to run again @ yyyy-MM-DD HH:mm:ss.fff (CTRL+C to QUIT)</i></b>'.
   
