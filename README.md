@@ -1,7 +1,9 @@
 # <u><i>NovaScotiansBot</i></u>
-Python 3 code to drive a Nova Scotia news bot reddit account, [NovaScotiansBot](https://www.reddit.com/u/NovaScotiansBot/), which will scan news APIs for Nova Scotia related articles, and then post them to https://www.reddit.com/r/NovaScotians/. 
+![NovaScotiansBot](https://github.com/xTkAx/NovaScotiansBot/assets/16578236/d650aed1-32bf-4d81-a835-d6816252a07c)
 
-Can be modified to become your very own subreddit news & monthly chat lounge cycling bot!
+This repository contains <b>Python 3</b> code to drive a Nova Scotia news bot reddit account, [NovaScotiansBot](https://www.reddit.com/u/NovaScotiansBot/), which will scan news APIs for Nova Scotian related news articles, and then post them to https://www.reddit.com/r/NovaScotians/.  In addition it will maintain a monthly Chat Lounge on the subreddit.
+
+<b>Can be modified to become your very own subreddit news & monthly chat lounge bot!</b>
 
 ## How To Use:
 - Set up an account for your bot & get API keys for the following services:
