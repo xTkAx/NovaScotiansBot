@@ -14,7 +14,7 @@ NovaScotiansBotConfig
 
 """
 
-# region PRAW REDDIT API DATA:
+# region RedditAPI:
 
 REDDIT_CLIENT_ID = ''
 
@@ -28,7 +28,7 @@ REDDIT_USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Fi
 
 REDDIT_SUBREDDIT = 'NovaScotians'
 
-# endregion PRAW REDDIT API DATA
+# endregion RedditAPI
 
 # region NEWS API KEYS:
 

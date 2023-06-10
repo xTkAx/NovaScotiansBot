@@ -143,14 +143,14 @@ def cycle_to_new_monthly_chat_lounge(lounge_title, lounge_body):
                 # Set the id:
                 old_lounge_sticky_id = cl.subreddit(REDDIT_SUBREDDIT).sticky(1).id
 
-                print(f'Found current Lounge sticky ID: {old_lounge_sticky_id}')
-
             # If sticky post 2 matches the upper_username:
             elif cl.submission(cl.subreddit(REDDIT_SUBREDDIT).sticky(2).id).author.name.upper() == upper_username:
                 # Set the id:
                 old_lounge_sticky_id = cl.subreddit(REDDIT_SUBREDDIT).sticky(2).id
 
-                print(f'Found current Lounge sticky ID: {old_lounge_sticky_id}')
+            # If the Chat Lounge sticky ID is found show it:
+            if old_lounge_sticky_id != '':
+                print(f'\t\tFound current Chat Lounge sticky ID: {old_lounge_sticky_id}')
 
         except Exception as cycle_to_new_monthly_chat_lounge_e:
             raise ValueError(f'RedditAPI/cycle_to_new_monthly_chat_lounge() exception:' +
@@ -163,7 +163,7 @@ def cycle_to_new_monthly_chat_lounge(lounge_title, lounge_body):
 
                 suppress_screen_text = submission.mod.sticky(False, False)  # Suppressing screen text from this call.
 
-                print(f'Unstuck old Lounge sticky ID: {old_lounge_sticky_id}')
+                print(f'\t\tUnstuck old Chat Lounge sticky ID: {old_lounge_sticky_id}')
 
                 # Append a link to lounge_body, so it can link to the Chat Lounge that was just unstuck:
                 lounge_body = f'{lounge_body}\r\n[Last month\'s Chat Lounge]' \
@@ -173,7 +173,7 @@ def cycle_to_new_monthly_chat_lounge(lounge_title, lounge_body):
                 raise ValueError(f'RedditAPI/cycle_to_new_monthly_chat_lounge() exception:' +
                                  f'{cycle_to_new_monthly_chat_lounge_e}')
         else:
-            print(f'No Chat Lounge sticky ID\'s were found belonging to u/{REDDIT_USERNAME}.')
+            print(f'\t\tNo Chat Lounge sticky ID\'s were found belonging to u/{REDDIT_USERNAME}.')
 
         try:  # Post the new Chat Lounge:
             new_lounge_post = cl.subreddit(REDDIT_SUBREDDIT).submit(lounge_title,
@@ -190,7 +190,7 @@ def cycle_to_new_monthly_chat_lounge(lounge_title, lounge_body):
             # Sticky the Lounge post:
             cl.submission(new_lounge_post.id).mod.sticky()
 
-            print(f'Posted new Chat Lounge post ID: {new_lounge_post.id}.')
+            print(f'\t\tPosted new Chat Lounge post ID: {new_lounge_post.id}.')
 
         except Exception as cycle_to_new_monthly_chat_lounge_e:
             raise ValueError(f'RedditAPI/cycle_to_new_monthly_chat_lounge() exception: ' +

@@ -30,7 +30,7 @@ user_defined_search_strings = ['Nova Scotia', 'Scotian']  # This is what you wan
 
 this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # True or False?
 
-posts_file = 'Posts.csv'  # The filename to store all the article data is stored (rows of: ["Posted","title","url"]).
+posts_file = 'NovaScotiansPosts.csv'  # The filename to store all the article data (rows of: ["Posted","title","url"]).
 
 archive_posts_file = False  # [True] will reset the posts_file every day.  [False] will continue appending to post_file.
 
@@ -48,15 +48,14 @@ successfully_posted_string = 'Posted'
 # Define the file name where the application's persistent date data will be stored (used for day/month changes):
 persistent_date_file = 'NovaScotiansBot.dat'
 
-# Define if rejected posts from APIs with a custom article search will print to screen [True], or not [False]:
+# Define if articles rejected by custom search in the APIs code should display to the screen [True], or not [False]:
 display_rejects = False
 
 # Define the application start_time:
 start_time = datetime.now()
 
-# Define the day and month variables:
+# Define the day:
 current_day = f'{start_time.year}{start_time.month:02d}{start_time.day:02d}'
-current_month = f'{start_time.year}{start_time.month:02d}'
 
 # endregion Application
 
@@ -139,7 +138,7 @@ def write_csv(csv_data, filename):
 
 # region archive_file():
 """
-    This method will move a fle to a new name, prefixed with a time stamp, to archive it.
+    This method will move a file to a new name, prefixed with a time stamp, to archive it.
 
     Parameters:
         filename:       The name of the filename to archive.
@@ -197,6 +196,44 @@ def delete_file(filename):
 # endregion Files
 
 # region Data:
+
+# region get_last_run_date():
+"""
+    This method will attempt to get the application's last run date from a file.
+        
+    Parameters:
+        filename:       The name of the file holding the application's persistent date.
+    
+    Returns:
+        yyyyMMdd value found in the file, or 0.
+
+"""
+
+
+def get_last_run_date(filename):
+    # Set the return value:
+    return_value = 0
+
+    # Get the date record from the persistent_date_file:
+    run_date = get_csv_array(filename)
+
+    # If there is one line of data:
+    if len(run_date) == 1:
+        # Set the return_value with the data:
+        return_value = run_date[0][0]
+
+        print(f'Using last run date of {return_value}.')
+
+    else:
+        # If the file exists:
+        if os.path.exists(filename):
+            # Alert the user of unexpected data in the file:
+            print(f'{filename} was expected to have 1 row of data, but had {len(last_run_date)}.')
+
+    return return_value
+
+
+# endregion get_last_run_date()
 
 # region count_col_matches():
 """
@@ -288,7 +325,7 @@ def add_new_articles_to_post_data(new_posts, posts):
     This method will post any un-posted posts to reddit.
 
     Parameters:
-        posts:          The array of posts.
+        posts_array:    The array of post csv data.
         match_value:    The value to search and update the posts object with.
         column:         The column of data to search on (Default = 0).
 
@@ -298,8 +335,11 @@ def add_new_articles_to_post_data(new_posts, posts):
 """
 
 
-def post_unposted_to_reddit(posts, match_value, column=0):
-    for article in posts:
+def post_unposted_to_reddit(posts_array, match_value, column=0):
+
+    print(f'Posting to Reddit:')
+
+    for article in posts_array:
 
         if article[column].upper() != match_value.upper():
 
@@ -308,12 +348,12 @@ def post_unposted_to_reddit(posts, match_value, column=0):
 
                 article[column] = match_value
 
-                print(f'Posted:\r\n\t{article[1]}\r\n\t{article[2]}')
+                print(f'\tPosted: {article[1]} | {article[2]}')
 
             except Exception as post_unposted_to_reddit_e:
-                print(f'post_unposted_to_reddit() exception: {post_unposted_to_reddit_e}')
+                print(f'\tpost_unposted_to_reddit() exception: {post_unposted_to_reddit_e}')
 
-    return posts
+    return posts_array
 
 
 # endregion post_unposted_to_reddit()
@@ -335,6 +375,8 @@ def post_unposted_to_reddit(posts, match_value, column=0):
 
 
 def cycle_new_chat_lounge(current_date):
+    print(f'Cycling Reddit Chat Lounge:')
+
     lounge_date = f"{current_date.strftime('%B')}, {current_date.now().year}"  # eg: "June, 2023".
 
     lounge_title = f'Chat Lounge For {lounge_date}'  # RedditAPI will prefix this. eg: 'r/SubredditName {lounge_title}'.
@@ -346,7 +388,7 @@ def cycle_new_chat_lounge(current_date):
         RedditAPI.cycle_to_new_monthly_chat_lounge(lounge_title, lounge_body)
 
     except Exception as cycle_new_chat_lounge_e:
-        print(f'cycle_new_chat_lounge() exception: {cycle_new_chat_lounge_e}')
+        print(f'\tcycle_new_chat_lounge() exception: {cycle_new_chat_lounge_e}')
 
 
 # endregion cycle_new_chat_lounge():
@@ -403,6 +445,8 @@ def get_articles_from_apis(search_strings):
         except Exception as thenewsapi_e:
             print(f'\t\tTheNewsAPI exception: {thenewsapi_e}')
 
+        # Add another API here:
+
     return return_articles
 
 
@@ -416,19 +460,13 @@ def get_articles_from_apis(search_strings):
 
 # If the user set either of these to True:
 if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge or archive_posts_file:
-    # Get data from the persistent_date_file holding the last run dates:
-    last_run_dates = get_csv_array(persistent_date_file)
 
-    # If there is one line of data:
-    if len(last_run_dates) == 1:
-        # Set the current_day and current_month to the new data:
-        current_day = last_run_dates[0][0]
-        current_month = last_run_dates[0][1]
-    else:
-        # If the file exists:
-        if os.path.exists(persistent_date_file):
-            # Alert the user of unexpected data in the file:
-            print(f'{persistent_date_file} was expected to have 1 row of data, but had {len(last_run_dates)}.')
+    # Get the last run date from the persistent_date_file:
+    last_run_date = get_last_run_date(persistent_date_file)
+
+    # Set the current day:
+    current_day = current_day if last_run_date == 0 else last_run_date
+
 else:
     # Attempt to purge the persistent_date_file:
     delete_file(persistent_date_file)
@@ -437,9 +475,10 @@ while True:
     # Define the start time for this loop:
     loop_start_time = datetime.now()
 
-    # Define the day and month for this loop:
+    # Define date variables for this loop:
     loop_start_day = f'{loop_start_time.year}{loop_start_time.month:02d}{loop_start_time.day:02d}'
     loop_start_month = f'{loop_start_time.year}{loop_start_time.month:02d}'
+    current_month = current_day[:(len(current_day) - 2)]
 
     # Get an array of data from the posts_file (or empty array if posts_file is empty or non-existent):
     post_data = get_csv_array(posts_file)
@@ -452,29 +491,26 @@ while True:
     # If there is nothing to post:
     if unposted_count == 0:
 
-        # If the loop is in a new day:
+        # If the loop is in a new day and the posts_file
         if loop_start_day != current_day:
 
             # If the posts_file exists, and the user set archive_posts_file = True:
             if os.path.exists(posts_file) and archive_posts_file:
-                # Archive the file:
+
+                # Archive the file for the last day:
                 archive_file(posts_file, current_day)
-                # Reset the post_data for this day:
+
+                # Reset the post_data in memory:
                 post_data = []
 
-            # Set the current_day value to this day:
+            # Set the current day value to this day:
             current_day = loop_start_day
 
-        # If the loop is in a new month:
-        if loop_start_month != current_month:
+        # If the loop is in a new month and the user set this to True:
+        if loop_start_month != current_month and this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge:
 
-            # If the user set this to True:
-            if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge:
-                # Cycle the chat lounge
-                cycle_new_chat_lounge(loop_start_time)
-
-            # Set the current_month value to this month:
-            current_month = loop_start_month
+            # Cycle the chat lounge
+            cycle_new_chat_lounge(loop_start_time)
 
         # Get new articles:
         new_articles = get_articles_from_apis(user_defined_search_strings)
@@ -482,30 +518,35 @@ while True:
         # Add any new_articles not in post_data to post_data:
         post_data = add_new_articles_to_post_data(new_articles, post_data)
 
-    # Post any unposted posts to reddit:
-    post_data = post_unposted_to_reddit(post_data, successfully_posted_string)
+    # Identify how many unposted posts in the posts_data again:
+    unposted_count = count_col_matches(post_data, successfully_posted_string, False)
 
-    # Write the new CSV file with the updated data:
-    write_csv(post_data, posts_file)
+    # If there's now any unposted posts in post_data:
+    if unposted_count != 0:
+        # Post any unposted posts to reddit:
+        post_data = post_unposted_to_reddit(post_data, successfully_posted_string)
 
-    # If the user set either of these to true, write the application dates to the persistent_date_file:
+        # Write the new CSV file with the updated data:
+        write_csv(post_data, posts_file)
+
+    # If the user set either of these to true, write the current_day value to the persistent_date_file:
     if this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge or archive_posts_file:
-        write_csv([[current_day, current_month]], persistent_date_file)
+        write_csv([[current_day]], persistent_date_file)
 
     # Initialize the retry_delay:
     retry_delay = default_retry_delay if count_col_matches(post_data, successfully_posted_string, False) == 0 \
         else repost_retry_delay
 
     # Display the wait and quit message:
-    print(f'Waiting to run again in {retry_delay} seconds, @ {datetime.now() + timedelta(seconds=retry_delay)} ' +
-          f'(CTRL+C to QUIT)')
+    print(f'Waiting to run again in {retry_delay} seconds, @ {datetime.now() + timedelta(seconds=retry_delay)}' +
+          f'\r\n(CTRL+C to QUIT)')
 
     # Pause and wait for retry_delay seconds before running the loop again:
     try:
         time.sleep(retry_delay)
 
-    except Exception as e:
-        print(f'\nApplication run time: {datetime.now() - start_time}\r\nSuccessfully terminated by user.')
+    except:
+        print(f'\nApplication run time: {datetime.now() - start_time}\r\nSuccessfully terminated.')
         sys.exit()
 
 # endregion Application
