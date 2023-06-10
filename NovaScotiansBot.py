@@ -18,7 +18,7 @@ import shutil
 import sys
 import time
 from datetime import datetime, timedelta
-from APIs import RedditAPI, MediaStackAPI, TheNewsAPI
+from APIs import RedditAPI, MediaStackAPI, TheNewsAPI, TheGuardianAPI
 
 # endregion Libraries
 
@@ -28,7 +28,7 @@ from APIs import RedditAPI, MediaStackAPI, TheNewsAPI
 
 user_defined_search_strings = ['Nova Scotia', 'Scotian']  # This is what you want to edit (each '*' is 1 search).
 
-this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # True or False?
+this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # [True] or [False]?
 
 posts_file = 'NovaScotiansPosts.csv'  # The filename to store all the article data (rows of: ["Posted","title","url"]).
 
@@ -444,6 +444,18 @@ def get_articles_from_apis(search_strings):
 
         except Exception as thenewsapi_e:
             print(f'\t\tTheNewsAPI exception: {thenewsapi_e}')
+
+        try:  # Get TheGuardianAPI articles:
+            article_count = 0
+
+            for article in TheGuardianAPI.get_news(search_string):
+                return_articles.append(article)
+                article_count += 1
+
+            print(f'\t\t{article_count} articles @ TheGuardianAPI')
+
+        except Exception as theguardianapi_e:
+            print(f'\t\tTheGuardianAPI exception: {theguardianapi_e}')
 
         # Add another API here:
 

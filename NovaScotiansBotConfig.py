@@ -6,8 +6,10 @@ NovaScotiansBotConfig
         -Praw Reddit API
         -MediaStack API
         -TheNewsAPI API
+        -TheGuardian API
 
-    All APIs will check this data, so if any fields are missing, that specific API will not be used.
+    All APIs will check this data, so if any of its related fields are blank '',
+    that specific API will not be used.
 
     Source:
         https://github.com/xTkAx/NovaScotiansBot
@@ -35,5 +37,7 @@ REDDIT_SUBREDDIT = 'NovaScotians'
 MEDIASTACK_API_KEY = ''
 
 THENEWSAPI_API_KEY = ''
+
+THEGUARDIAN_API_KEY = ''
 
 # endregion NEWS API KEYS

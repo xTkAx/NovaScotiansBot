@@ -15,6 +15,7 @@ The <b>NovaScotiansBot</b> will scan news APIs for Nova Scotian related news art
       - <i>(Optional)</i>: Make the bot a moderator of the subreddit if you want it to cycle a stickied monthly Chat Lounge in the subreddit <i>(more about this below)</i>.
    -  https://www.mediastack.com <i>(News API)</i>.
    -  https://www.thenewsapi.com <i>(News API)</i>.
+   - https://open-platform.theguardian.com/ <i>(News API)</i>.
 
 
 2. Open the file <b>NovaScotiansBotConfig.py</b>, and assign the relevant variables retrieved from the above step.
