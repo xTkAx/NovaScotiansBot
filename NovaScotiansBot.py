@@ -491,7 +491,7 @@ while True:
     # If there is nothing to post:
     if unposted_count == 0:
 
-        # If the loop is in a new day and the posts_file
+        # If the loop is in a new day:
         if loop_start_day != current_day:
 
             # If the posts_file exists, and the user set archive_posts_file = True:
