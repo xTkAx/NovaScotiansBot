@@ -1,96 +1,128 @@
 """
 MediaStackAPI
 
-    This script contains the methods used to pull data from https://mediastack.com/
+    This file contains the methods used to pull data from https://MediaStack.com/
     -Free account allows 500 requests per month.
     -Free account only allows http access (no https).
+    -An example url to search for news articles:
+    api.mediastack.com/v1/news?access_key={MEDIASTACK_API_KEY}&keywords={search_string}&date={date}&languages=en
 
-    API Documentation: https://mediastack.com/documentation
-    An example url to search for news articles:
-    api.mediastack.com/v1/news?access_key={MEDIASTACK_API_KEY}&keywords={search_string}&date={todays_date}&languages=en
+    Documentation:
+        https://mediastack.com/documentation
 
-    https://github.com/xTkAx/NovaScotiansBot
+    Source:
+        https://github.com/xTkAx/NovaScotiansBot
 
 """
+# region Libraries:
 import re
-
 import requests
 from datetime import datetime
 from NovaScotiansBotConfig import MEDIASTACK_API_KEY
 
+# endregion Libraries:
+
+# region Methods:
+
+# region confirm_user_config():
+"""
+    This method confirm the user filled all the data in NovaScotiansBotConfig.
+
+    Parameters:
+        None.
+
+    Returns:
+        [True] or [False] depending on if the user filled all the values.
+
+"""
+
+
+def confirm_user_config():
+    if MEDIASTACK_API_KEY == '':
+        return False
+    else:
+        return True
+
+
+# endregion confirm_user_config()
+
 # region get_news()
 """
 get_news()
-    This method will generate the query to get the news from MediaStack.com, and yield each article back to the caller
-     (or will throw an error).
+    This method will generate the query to get the news from MediaStack.com, and yield each article back to the caller.
     
     Parameters:
-        search_string: the string to do a news search for
-    
-    Throws:
-        Error
+        search_string:  The string to do a news search for.
+        show_rejects:   Will show any custom search rejects.
             
     Yields:
         Articles of data in the format:
             ['', title, url]
+    
+    Throws:
+        Error.
             
 """
 
 
 def get_news(search_string, show_rejected=False):
-    # Clean the search_string as required for this API:
-    search_string = f'{search_string.strip().replace(" ", "%20")}'
+    # If the user filled all fields in NovaScotiansBotConfig:
+    if confirm_user_config():
 
-    # Get today's date for the search
-    todays_date = f'{datetime.now().year}-{datetime.now().month:02d}-{datetime.now().day:02d}'
+        # Clean the search_string as required for this API:
+        search_string = f'{search_string.strip().replace(" ", "%20")}'
 
-    # Create the url to request the data from MediaStackAPI:
-    request_url = f'http://api.mediastack.com/v1/news' \
-                  f'?access_key={MEDIASTACK_API_KEY}' \
-                  f'&keywords={search_string}' \
-                  f'&date={todays_date}' \
-                  f'&languages=en'
+        # Get today's date for the search
+        date_pattern = f'{datetime.now().year}-{datetime.now().month:02d}-{datetime.now().day:02d}'
 
-    # Try to get the json from the request or throw an error:
-    try:
-        results = requests.get(request_url).json()
-    except Exception as e:
-        raise ValueError(e)
+        # Create the url to request the data from MediaStackAPI:
+        request_url = f'http://api.mediastack.com/v1/news' \
+                      f'?access_key={MEDIASTACK_API_KEY}' \
+                      f'&keywords={search_string}' \
+                      f'&date={date_pattern}' \
+                      f'&languages=en'
 
-    # Access the 'data' in the json:
-    json_data = results['data']
+        # Try to get the json from the request or throw an error:
+        try:
+            results = requests.get(request_url).json()
+        except Exception as get_news_e:
+            raise ValueError(f'MediaStackAPI/get_news exception: {get_news_e}')
 
-    # Loop through each element of the json data:
-    for i in range(len(json_data)):
-        block = json_data[i]
+        # Access the 'data' in the json:
+        json_data = results['data']
 
-        # Get the 'title' and 'url':
-        title = block['title']
-        url = block['url']
+        # Loop through each element of the json data:
+        for i in range(len(json_data)):
+            block = json_data[i]
 
-        # Get the description too:
-        description = block['description']
+            # Get the 'title' and 'url':
+            title = block['title']
+            url = block['url']
 
-        # For this API we need to check titles urls and descriptions for the search_string
-        # because it's a bad API that will search "multiple terms" as 'multiple OR terms'.
-        # So what below is doing is dropping all the spaces and a few select characters in
-        # the strings and making them all UPPERCASE and comparing the fields to the search_string
-        # which is uppercase too.
-        # It's hacky and messy, and it could be better, but for now it works:
-        test_search_regex = search_string.replace('%20', '').upper()
-        test_title = title.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').upper()
-        test_url = url.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').\
-            replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('\'', '').upper()
-        test_desc = description.strip().replace('-', '').replace('.', '').replace(' ', '').replace(',', '').\
-            replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('\'', '').upper()
-        # Check all tests and skip any entries where the title, url or description don't match the search_string:
-        if not re.search(test_search_regex, test_title):
-            if not re.search(test_search_regex, test_url):
-                if not re.search(test_search_regex, test_desc):
-                    if show_rejected:
-                        print(f'Reject from MetaStackAPI.py: {title} | {url}')
-                    continue
+            # Get the description too:
+            description = block['description']
 
-        # Yield the article to the caller:
-        yield ['', title, url]
+            # Redefine search, title, url, desc, to remove all non-alphanumerics and make string uppercase for testing,
+            # because this API searches "multiple terms" as 'multiple OR terms' and gets many false hits:
+            test_search_regex = re.sub(r'\W+', '', search_string.replace('%20', '').upper())
+            test_title = re.sub(r'\W+', '', title.upper())
+            test_url = re.sub(r'\W+', '', url.upper())
+            test_desc = re.sub(r'\W+', '', description.upper())
+
+            # Check all tests and skip any entries where test_search_regex is not in test_title/url/desc:
+            if not re.search(test_search_regex, test_title):
+                if not re.search(test_search_regex, test_url):
+                    if not re.search(test_search_regex, test_desc):
+                        if show_rejected:
+                            print(f'MetaStackAPI custom reject: {title} | {url}')
+                        continue
+
+            # Yield the article to the caller:
+            yield ['', title, url]
+
+    else:
+        raise ValueError(f'Empty fields were found in NovaScotiansBotConfig for MediaStackAPI')
+
 # endregion get_news()
+
+# endregion Methods
