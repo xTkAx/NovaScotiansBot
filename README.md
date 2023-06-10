@@ -41,7 +41,7 @@ All fields will be checked by their respective APIs before being used, meaning i
    - The application overwrites <b>NovaScotiansPosts.csv</b> when it finds new articles and posts them to Reddit. Posted articles are identified in the file where the 1st column of data is  '<b>Posted</b>'.
    - If you set either of these values to <code>True</code>:<br/><code>this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = True</code><br/><b>OR</b><br/><code>archive_posts_file = True</code><br/>Then the application will store a persistent date value to <b>NovaScotiansBot.dat</b> on each loop.  The application requires this value to work seamlessly with those options in the event the run is stopped and restarted. 
      - If <u>both</u> are set to <code>False</code>, <b>NovaScotiansBot.dat</b> will be purged on application start, and will not be used.
-   - <b>CTRL+C</b> can be used to terminate the application at any time. But to avoid the small risk of data-loss when writing to <b>NovaScotiansPosts.csv</b> and <b>NovaScotiansBot.dat</b>, it's best to wait until you see the application output this to the screen:<br/><code><b><i>..<br/>Waiting to run again @ yyyy-MM-DD HH:mm:ss.fff<br/>(CTRL+C to QUIT)</i></b></code>
+   - <b>CTRL+C</b> can be used to terminate the application at any time. But to avoid the small risk of data-loss when writing to <b>NovaScotiansPosts.csv</b> and <b>NovaScotiansBot.dat</b>, it's best to wait until you see the application output this to the screen:<br/><code><b><i>..</code><br/><code>Waiting to run again @ yyyy-MM-DD HH:mm:ss.fff</code><br/><code>(CTRL+C to QUIT)</i></b></code>
   
 ## Issues:
 - You might have to install some libraries.
