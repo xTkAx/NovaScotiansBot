@@ -18,7 +18,7 @@ import shutil
 import sys
 import time
 from datetime import datetime, timedelta
-from APIs import RedditAPI, MediaStackAPI, TheNewsAPI, TheGuardianAPI
+from APIs import RedditAPI, MediaStackAPI, TheNewsAPI, TheGuardianAPI, GNewsAPI
 
 # endregion Libraries
 
@@ -456,6 +456,18 @@ def get_articles_from_apis(search_strings):
 
         except Exception as theguardianapi_e:
             print(f'\t\tTheGuardianAPI exception: {theguardianapi_e}')
+
+        try:  # Get GNewsAPI articles:
+            article_count = 0
+
+            for article in GNewsAPI.get_news(search_string):
+                return_articles.append(article)
+                article_count += 1
+
+            print(f'\t\t{article_count} articles @ GNewsAPI')
+
+        except Exception as theguardianapi_e:
+            print(f'\t\tGNewsAPI exception: {theguardianapi_e}')
 
         # Add another API here:
 

@@ -7,6 +7,7 @@ NovaScotiansBotConfig
         -MediaStack API
         -TheNewsAPI API
         -TheGuardian API
+        -GNews API
 
     All APIs will check this data, so if any of its related fields are blank '',
     that specific API will not be used.
@@ -39,5 +40,7 @@ MEDIASTACK_API_KEY = ''
 THENEWSAPI_API_KEY = ''
 
 THEGUARDIAN_API_KEY = ''
+
+GNEWS_API_KEY = ''
 
 # endregion NEWS API KEYS
