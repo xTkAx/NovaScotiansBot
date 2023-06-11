@@ -81,10 +81,8 @@ def get_news(search_string):
         # Try to get the json from the request or throw an error:
         try:
             results = requests.get(request_url).json()
-        except Exception as get_news_e:
-            raise ValueError(f'TheGuardianAPI/get_news exception: {get_news_e}')
 
-        try:  # Access the 'response'/'results' in the json:
+            # Access the 'response'/'results' in the json:
             json_data = results['response']['results']
 
             # Loop through each element of the json data:

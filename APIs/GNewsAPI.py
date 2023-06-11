@@ -85,10 +85,8 @@ def get_news(search_string):
         # Try to get the json from the request or throw an error:
         try:
             results = requests.get(request_url).json()
-        except Exception as get_news_e:
-            raise ValueError(f'GNewsAPI/get_news exception: {get_news_e}')
 
-        try:  # Access the 'articles' in the json:
+            # Access the 'articles' in the json:
             json_data = results['articles']
 
             # Loop through each element of the json data:
