@@ -8,15 +8,16 @@ The <b>NovaScotiansBot</b> will scan news APIs for Nova Scotian related news art
 <b>This repository can be modified to make your very own subreddit news & monthly chat lounge bot.  All you need to do is follow the steps below!</b>
 
 ## How To Use:
-1. Set up an account for your bot & get the API keys for all the following services:
-   -  https://www.Reddit.com <i>(Reddit API)</i> +
-      - Find a subreddit to use the bot in <i>(work with a moderator, or make a new subreddit and become the moderator of it)</i>.
-      - <i>(Optional)</i>: Make the bot an approved user in the subreddit if the bot account karma is low <i>(otherwise it may be limited to posting once every 15 minutes)</i>.
-      - <i>(Optional)</i>: Make the bot a moderator of the subreddit if you want it to cycle a stickied monthly Chat Lounge in the subreddit <i>(more about this below)</i>.
-   -  https://www.mediastack.com <i>(News API)</i>.
-   -  https://www.thenewsapi.com <i>(News API)</i>.
-   -  https://open-platform.theguardian.com/ <i>(News API)</i>.
-   -  https://gnews.io/ <i>(News API)</i>.
+1. Set up accounts for your bot & get the API keys to use at the following services:
+   -  https://www.Reddit.com (Reddit Account) +
+        - Find a subreddit to use the bot in <i>(work with a moderator, or make a new subreddit and become the moderator of it)</i>.
+        - <i>(Optional)</i>: Make the bot an approved user in the subreddit if the bot account karma is low <i>(otherwise it may be limited to posting once every 15 minutes)</i>.
+        - <i>(Optional)</i>: Make the bot a moderator of the subreddit if you want it to cycle a stickied monthly Chat Lounge in the subreddit <i>(more about this below)</i>.
+   -  https://www.Reddit.com/prefs/apps/ <i>(Reddit API)</i>.
+   -  https://www.MediaStack.com <i>(News API)</i>.
+   -  https://www.TheNewsAPI.com <i>(News API)</i>.
+   -  https://Open-Platform.TheGuardian.com/ <i>(News API)</i>.
+   -  https://GNews.io/ <i>(News API)</i>.
 
 
 2. Open the file <b>NovaScotiansBotConfig.py</b>, and assign the relevant variables retrieved from the above step.
