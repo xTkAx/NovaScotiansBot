@@ -55,4 +55,5 @@ All fields will be checked by their respective APIs before being used, meaning i
 
 ## ToDo's:
 - Find a way to make sure only english language news articles are posted.
+- Find a way to better exclude duplicates (some are duplicate articles with different titles/urls)
 - Add more News APIs.

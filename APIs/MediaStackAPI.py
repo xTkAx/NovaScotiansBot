@@ -88,37 +88,40 @@ def get_news(search_string, show_rejected=False):
         except Exception as get_news_e:
             raise ValueError(f'MediaStackAPI/get_news exception: {get_news_e}')
 
-        # Access the 'data' in the json:
-        json_data = results['data']
+        try:  # Access the 'data' in the json:
+            json_data = results['data']
 
-        # Loop through each element of the json data:
-        for i in range(len(json_data)):
-            block = json_data[i]
+            # Loop through each element of the json data:
+            for i in range(len(json_data)):
+                block = json_data[i]
 
-            # Get the 'title' and 'url':
-            title = block['title']
-            url = block['url']
+                # Get the 'title' and 'url':
+                title = block['title']
+                url = block['url']
 
-            # Get the description too:
-            description = block['description']
+                # Get the description too:
+                description = block['description']
 
-            # Redefine search, title, url, desc, to remove all non-alphanumerics and make string uppercase for testing,
-            # because this API searches "multiple terms" as 'multiple OR terms' and gets many false hits:
-            test_search_regex = re.sub(r'\W+', '', search_string.replace('%20', '').upper())
-            test_title = re.sub(r'\W+', '', title.upper())
-            test_url = re.sub(r'\W+', '', url.upper())
-            test_desc = re.sub(r'\W+', '', description.upper())
+                # Redefine search, title, url, desc, to remove all non-alphanumerics and make string uppercase for
+                # testing, because this API searches "multiple terms" as 'multiple OR terms' and gets many false hits:
+                test_search_regex = re.sub(r'\W+', '', search_string.replace('%20', '').upper())
+                test_title = re.sub(r'\W+', '', title.upper())
+                test_url = re.sub(r'\W+', '', url.upper())
+                test_desc = re.sub(r'\W+', '', description.upper())
 
-            # Check all tests and skip any entries where test_search_regex is not in test_title/url/desc:
-            if not re.search(test_search_regex, test_title):
-                if not re.search(test_search_regex, test_url):
-                    if not re.search(test_search_regex, test_desc):
-                        if show_rejected:
-                            print(f'\t\tMediaStackAPI custom reject: {title} | {url}')
-                        continue
+                # Check all tests and skip any entries where test_search_regex is not in test_title/url/desc:
+                if not re.search(test_search_regex, test_title):
+                    if not re.search(test_search_regex, test_url):
+                        if not re.search(test_search_regex, test_desc):
+                            if show_rejected:
+                                print(f'\t\tMediaStackAPI custom reject: {title} | {url}')
+                            continue
 
-            # Yield the article to the caller:
-            yield ['', title, url]
+                # Yield the article to the caller:
+                yield ['', title, url]
+
+        except Exception as get_news_e:
+            raise ValueError(f'MediaStackAPI/get_news exception: {get_news_e}')
 
     else:
         raise ValueError(f'Empty fields were found in NovaScotiansBotConfig for MediaStackAPI')

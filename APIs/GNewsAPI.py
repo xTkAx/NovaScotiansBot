@@ -88,19 +88,22 @@ def get_news(search_string):
         except Exception as get_news_e:
             raise ValueError(f'GNewsAPI/get_news exception: {get_news_e}')
 
-        # Access the 'articles' in the json:
-        json_data = results['articles']
+        try:  # Access the 'articles' in the json:
+            json_data = results['articles']
 
-        # Loop through each element of the json data:
-        for i in range(len(json_data)):
-            block = json_data[i]
+            # Loop through each element of the json data:
+            for i in range(len(json_data)):
+                block = json_data[i]
 
-            # Get the 'title' and 'url':
-            title = block['title']
-            url = block['url']
+                # Get the 'title' and 'url':
+                title = block['title']
+                url = block['url']
 
-            # Yield the article to the caller:
-            yield ['', title, url]
+                # Yield the article to the caller:
+                yield ['', title, url]
+
+        except Exception as get_news_e:
+            raise ValueError(f'GNewsAPI/get_news exception: {get_news_e}')
 
     else:
         raise ValueError(f'Empty fields were found in NovaScotiansBotConfig for GNewsAPI')

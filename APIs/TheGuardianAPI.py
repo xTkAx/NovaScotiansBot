@@ -84,19 +84,22 @@ def get_news(search_string):
         except Exception as get_news_e:
             raise ValueError(f'TheGuardianAPI/get_news exception: {get_news_e}')
 
-        # Access the 'response'/'results' in the json:
-        json_data = results['response']['results']
+        try:  # Access the 'response'/'results' in the json:
+            json_data = results['response']['results']
 
-        # Loop through each element of the json data:
-        for i in range(len(json_data)):
-            block = json_data[i]
+            # Loop through each element of the json data:
+            for i in range(len(json_data)):
+                block = json_data[i]
 
-            # Get the 'webTitle' and 'webUrl':
-            title = block['webTitle']
-            url = block['webUrl']
+                # Get the 'webTitle' and 'webUrl':
+                title = block['webTitle']
+                url = block['webUrl']
 
-            # Yield the article to the caller:
-            yield ['', title, url]
+                # Yield the article to the caller:
+                yield ['', title, url]
+
+        except Exception as get_news_e:
+            raise ValueError(f'TheGuardianAPI/get_news exception: {get_news_e}')
 
     else:
         raise ValueError(f'Empty fields were found in NovaScotiansBotConfig for TheGuardianAPI')
