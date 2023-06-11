@@ -28,7 +28,7 @@ from APIs import RedditAPI, MediaStackAPI, TheNewsAPI, TheGuardianAPI, GNewsAPI
 
 user_defined_search_strings = ['Nova Scotia', 'Scotian']  # This is what you want to edit (each '*' is 1 search).
 
-this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = True  # [True] or [False]?
+this_bot_is_a_mod_and_will_cycle_a_monthly_chat_lounge = False  # [True] or [False]?
 
 posts_file = 'NovaScotiansPosts.csv'  # The filename to store all the article data (rows of: ["Posted","title","url"]).
 
