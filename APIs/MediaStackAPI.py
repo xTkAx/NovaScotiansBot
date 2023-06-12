@@ -96,6 +96,8 @@ def get_news(search_string, show_rejected=False):
                 # Get the 'title' and 'url':
                 title = block['title']
                 url = block['url']
+                # Clean the url of any possible data eg: '?cmp=rss'
+                url = url[:url.find("?")] if (url.find("?")) != -1 else url
 
                 # Get the description too:
                 description = block['description']

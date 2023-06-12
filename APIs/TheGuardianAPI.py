@@ -92,6 +92,8 @@ def get_news(search_string):
                 # Get the 'webTitle' and 'webUrl':
                 title = block['webTitle']
                 url = block['webUrl']
+                # Clean the url of any possible data eg: '?cmp=rss'
+                url = url[:url.find("?")] if (url.find("?")) != -1 else url
 
                 # Yield the article to the caller:
                 yield ['', title, url]
